@@ -1,0 +1,4 @@
+# material design web components will be installed by npm on package build
+/node_modules
+/compiled.js
+/templates.js
