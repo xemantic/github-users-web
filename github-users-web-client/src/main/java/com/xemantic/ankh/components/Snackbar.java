@@ -20,23 +20,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.mdc;
+package com.xemantic.ankh.components;
 
-import elemental2.dom.Element;
-import jsinterop.annotations.JsConstructor;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsType;
+import com.xemantic.ankh.mdc.MDCSnackbar;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
+ * Convenient wrapper around {@link MDCSnackbar}. As there should be only one snackbar,
+ * it will provide singleton component operating over provided {@link MDCSnackbar}
+ * instance. If you need a snackbar then just {@link Inject} this one in your components
+ * and use {@link #show(String)} method.
+ *
  * @author morisil
  */
-@JsType(isNative = true, namespace = "mdc.snackbar")
-public class MDCSnackbar {
+@Singleton
+public class Snackbar {
 
-  @JsConstructor
-  public MDCSnackbar(Element element) {}
+  private final MDCSnackbar mdcSnackbar;
 
-  @JsMethod
-  public native void show(MDCSnackbarData data);
+  @Inject
+  public Snackbar(MDCSnackbar mdcSnackbar) {
+    this.mdcSnackbar = mdcSnackbar;
+  }
+
+  public void show(String message) {
+    MDCSnackbar.Data data = new MDCSnackbar.Data();
+    data.message = message;
+    mdcSnackbar.show(data);
+  }
 
 }
