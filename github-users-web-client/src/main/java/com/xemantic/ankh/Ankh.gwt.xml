@@ -25,15 +25,10 @@
     "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
 <module>
 
-  <source path="logic" />
-
-  <inherits name="com.google.gwt.user.User" />
-
-  <inherits name="rx.Rx" />
-
-  <inherits name="dagger.Dagger" />
-
-  <inherits name="com.intendia.rxgwt.RxGwt" />
+  <source path="components" />
+  <source path="elemental" />
+  <source path="incrementaldom" />
+  <source path="mdc" />
 
   <inherits name="com.intendia.rxgwt.RxElemental2" />
 

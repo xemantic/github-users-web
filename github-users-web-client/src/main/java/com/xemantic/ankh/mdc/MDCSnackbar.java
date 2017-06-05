@@ -20,31 +20,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.components;
+package com.xemantic.ankh.mdc;
 
-import com.xemantic.githubusers.web.mdc.MDCSnackbar;
-import com.xemantic.githubusers.web.mdc.MDCSnackbarData;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import elemental2.dom.Element;
+import jsinterop.annotations.JsConstructor;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 /**
+ * Java representation of the {@code MDCSnackbar}. The {@code MDCSnackbar} is provided by the
+ * <a href="https://material.io/components/web/">Material Components for the Web</a>.
+ *
  * @author morisil
  */
-@Singleton
-public class Snackbar {
+@JsType(isNative = true, namespace = "mdc.snackbar")
+public class MDCSnackbar {
 
-  private final MDCSnackbar mdcSnackbar;
+  @JsConstructor
+  public MDCSnackbar(Element element) {}
 
-  @Inject
-  public Snackbar(MDCSnackbar mdcSnackbar) {
-    this.mdcSnackbar = mdcSnackbar;
-  }
+  @JsMethod
+  public native void show(Data data);
 
-  public void show(String message) {
-    MDCSnackbarData data = new MDCSnackbarData();
-    data.message = message;
-    mdcSnackbar.show(data);
+  @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+  public static class Data {
+    public String message;
   }
 
 }

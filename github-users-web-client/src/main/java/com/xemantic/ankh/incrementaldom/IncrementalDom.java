@@ -20,37 +20,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.elemental;
+package com.xemantic.ankh.incrementaldom;
 
-import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
-
-import java.util.Objects;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsMethod;
 
 /**
+ * Utility class exposing selected methods of Google's
+ * <a href="http://google.github.io/incremental-dom/#about">Incremental DOM</a>
+ * library.
+ *
  * @author morisil
  */
-public class Elements {
+public class IncrementalDom {
 
-  @SuppressWarnings("unchecked")
-  public static Element query(String selector) {
-    Objects.requireNonNull(selector);
-    Element element = DomGlobal.document.querySelector(selector);
-    if (element == null) {
-      throw new IllegalArgumentException("Cannot find element for selector: " + selector);
-    }
-    return element;
-  }
+  @JsMethod
+  public static native void patch(Element element, Patcher patcher);
 
-  @SuppressWarnings("unchecked")
-  public static Element query(Element element, String selector) {
-    Objects.requireNonNull(element);
-    Objects.requireNonNull(selector);
-    Element child = element.querySelector(selector);
-    if (child == null) {
-      throw new IllegalArgumentException("Cannot find child element for selector: " + selector);
-    }
-    return child;
+  @JsMethod
+  public static native void patchOuter(Element element, Patcher patcher);
+
+  @JsFunction
+  @FunctionalInterface
+  public interface Patcher {
+    void apply();
   }
 
 }
