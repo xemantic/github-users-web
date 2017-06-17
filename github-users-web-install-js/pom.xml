@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ github-users-web - lists GitHub users. Minimal app demonstrating
+  ~ cross-platform app development (Web, Android, iOS) where core
+  ~ logic is shared and transpiled from Java to JavaScript and
+  ~ Objective-C. This project delivers Web version.
+  ~
+  ~ Copyright (C) 2017  Kazimierz Pogoda
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>github-users-web</artifactId>
+    <groupId>com.xemantic.githubusers</groupId>
+    <version>1.0.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>github-users-web-install-js</artifactId>
+  <packaging>pom</packaging> <!-- only processing hack, not providing any artifact -->
+  <description>
+    Installs web components via npm. This module is just a part of technical toolchain, see README.md for details.
+  </description>
+
+  <dependencies>
+    <!-- this dependency is marked here just to establish execution order -->
+    <dependency>
+      <groupId>com.xemantic.githubusers</groupId>
+      <artifactId>github-users-web-client</artifactId>
+      <scope>runtime</scope> <!-- non-transitive -->
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>install-web-components</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <installDirectory>../github-users-web-server</installDirectory>
+              <workingDirectory>../github-users-web-server/src/main/webapp</workingDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <id>install node and npm</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+                <!-- optional: default phase is "generate-resources" -->
+                <phase>generate-resources</phase>
+                <configuration>
+                  <nodeVersion>${node.version}</nodeVersion>
+                </configuration>
+              </execution>
+              <execution>
+                <id>npm install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>install --save material-components-web google-closure-templates google-closure-library incremental-dom</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
