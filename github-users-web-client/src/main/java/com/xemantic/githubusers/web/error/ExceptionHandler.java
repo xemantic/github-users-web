@@ -20,35 +20,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.model;
+package com.xemantic.githubusers.web.error;
 
-import com.xemantic.githubusers.logic.model.User;
-import com.xemantic.githubusers.web.service.json.JsonUser;
+import com.google.gwt.core.client.GWT;
+import com.intendia.gwt.autorest.client.RequestResourceBuilder;
+import com.xemantic.ankh.components.Snackbar;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
+ * Handler of uncaught exceptions in this app. It will log the error using
+ * {@link GWT#log(String, Throwable)} and possibly show relevant message on
+ * the {@link Snackbar}.
+ *
  * @author morisil
  */
-public class DefaultUser implements User {
+@Singleton
+public class ExceptionHandler implements GWT.UncaughtExceptionHandler {
 
-  private final JsonUser payload;
+  private final Snackbar snackbar;
 
-  public DefaultUser(JsonUser payload) {
-    this.payload = payload;
+  @Inject
+  public ExceptionHandler(Snackbar snackbar) {
+    this.snackbar = snackbar;
   }
 
   @Override
-  public String getLogin() {
-    return payload.login;
-  }
-
-  @Override
-  public String getAvatarUrl() {
-    return payload.avatar_url;
-  }
-
-  @Override
-  public String getHtmlUrl() {
-    return payload.html_url;
+  public void onUncaughtException(Throwable e) {
+    GWT.log(e.getMessage(), e);
+    if (e instanceof RequestResourceBuilder.FailedStatusCodeException) {
+      snackbar.show(
+          ":( It seems that you just reached GitHub's limit of " +
+              "10 requests per minute. Try again in a while"
+      );
+    }
   }
 
 }

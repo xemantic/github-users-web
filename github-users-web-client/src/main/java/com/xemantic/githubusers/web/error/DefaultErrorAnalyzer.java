@@ -20,44 +20,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.model;
+package com.xemantic.githubusers.web.error;
 
-import com.xemantic.githubusers.logic.model.SearchResult;
-import com.xemantic.githubusers.logic.model.User;
-import com.xemantic.githubusers.web.service.json.JsonSearchResult;
-import com.xemantic.githubusers.web.service.json.JsonUser;
+import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
+ * The default error analyzer for this app. For the moment all the errors
+ * are considered recoverable.
+ *
  * @author morisil
  */
-public class DefaultSearchResult implements SearchResult {
+@Singleton
+public class DefaultErrorAnalyzer implements ErrorAnalyzer {
 
-  private final JsonSearchResult payload;
-
-  public DefaultSearchResult(JsonSearchResult payload) {
-    this.payload = payload;
-  }
+  @Inject
+  public DefaultErrorAnalyzer() {}
 
   @Override
-  public int getTotalCount() {
-    return payload.total_count;
-  }
-
-  @Override
-  public boolean isIncompleteResult() {
-    return payload.incomplete_result;
-  }
-
-  @Override
-  public List<User> getItems() {
-    List<User> list = new ArrayList<>();
-    for (JsonUser user : payload.items) {
-      list.add(new DefaultUser(user));
-    }
-    return list;
+  public boolean isRecoverable(Throwable throwable) {
+    return true; // for now always true
   }
 
 }

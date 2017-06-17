@@ -20,31 +20,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.navigation;
+package com.xemantic.githubusers.web;
 
-import com.google.gwt.user.client.Window;
-import com.xemantic.githubusers.logic.event.UserSelectedEvent;
-import com.xemantic.githubusers.logic.eventbus.EventBus;
-
-import javax.inject.Inject;
+import com.google.gwt.core.client.EntryPoint;
 
 /**
  * @author morisil
  */
-public class UserSelectionNavigator {
+public class GitHubUsersEntryPoint implements EntryPoint {
 
-  private final EventBus eventBus;
-
-  @Inject
-  public UserSelectionNavigator(EventBus eventBus) {
-    this.eventBus = eventBus;
-  }
-
-  public void start() {
-    eventBus.observe(UserSelectedEvent.class)
-        .subscribe(event -> Window.open( // TODO replace this window with element window
-            event.getUser().getHtmlUrl(), "_self", null)
-        );
+  @Override
+  public void onModuleLoad() {
+    DaggerGitHubUsersAppComponent.create().getApp().start();
   }
 
 }

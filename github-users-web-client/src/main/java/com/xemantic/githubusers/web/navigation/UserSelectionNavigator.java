@@ -20,33 +20,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.view;
+package com.xemantic.githubusers.web.navigation;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.view.UserQueryView;
-import com.xemantic.githubusers.web.elemental.Elements;
-import elemental2.dom.HTMLInputElement;
-import rx.Observable;
+import com.xemantic.githubusers.logic.event.UserSelectedEvent;
+import com.xemantic.githubusers.logic.eventbus.EventBus;
+import elemental2.dom.DomGlobal;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
+ * Will open user profile page if the user is selected.
+ *
  * @author morisil
  */
-public class DefaultUserQueryView implements UserQueryView {
+@Singleton
+public class UserSelectionNavigator {
 
-  private final Observable<String> query$;
+  private final EventBus eventBus;
 
   @Inject
-  public DefaultUserQueryView() {
-    HTMLInputElement input = (HTMLInputElement) Elements.query("#queryInput");
-    query$ = RxElemental2.fromEvent(input, RxElemental2.input)
-        .map(event -> input.value);
+  public UserSelectionNavigator(EventBus eventBus) {
+    this.eventBus = eventBus;
   }
 
-  @Override
-  public Observable<String> observeQueryInput() {
-    return query$;
+  public void start() {
+    eventBus.observe(UserSelectedEvent.class)
+        .subscribe(event -> DomGlobal.window.open(
+            event.getUser().getHtmlUrl(), "_self")
+        );
   }
 
 }

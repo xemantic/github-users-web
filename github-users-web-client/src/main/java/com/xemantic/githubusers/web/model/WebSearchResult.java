@@ -20,26 +20,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.error;
+package com.xemantic.githubusers.web.model;
 
-import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
-import com.xemantic.githubusers.logic.eventbus.EventBus;
+import com.xemantic.githubusers.logic.model.SearchResult;
+import com.xemantic.githubusers.logic.model.User;
+import com.xemantic.githubusers.web.service.json.JsonSearchResult;
+import com.xemantic.githubusers.web.service.json.JsonUser;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * Web version of the {@link SearchResult}. Adapts Java calls
+ * to the raw JSON object.
+ *
  * @author morisil
  */
-@Singleton
-public class DefaultErrorAnalyzer implements ErrorAnalyzer {
+public class WebSearchResult implements SearchResult {
 
-  @Inject
-  public DefaultErrorAnalyzer() {}
+  private final JsonSearchResult payload;
+
+  public WebSearchResult(JsonSearchResult payload) {
+    this.payload = payload;
+  }
 
   @Override
-  public boolean isRecoverable(Throwable throwable) {
-    return true; // for now always true
+  public int getTotalCount() {
+    return payload.total_count;
+  }
+
+  @Override
+  public boolean isIncompleteResult() {
+    return payload.incomplete_result;
+  }
+
+  @Override
+  public List<User> getItems() {
+    List<User> list = new ArrayList<>();
+    for (JsonUser user : payload.items) {
+      list.add(new WebUser(user));
+    }
+    return list;
   }
 
 }
