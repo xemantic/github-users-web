@@ -22,13 +22,24 @@
 
 {namespace com.xemantic.githubusers.web.template}
 
-/**
- * User tile.
- *
- * @param avatarUrl the avatar image URL.
- * @param login the login name.
- */
+
+//{template .userList}
+//  <div id="userList">
+//    <div class="mdc-grid-list mdc-grid-list--with-icon-align-end">
+//      <ul id="userTiles" class="mdc-grid-list__tiles"></ul>
+//    </div>
+//    <div id="userListActions">
+//      <button class="mdc-button mdc-button--raised mdc-button--primary"
+//              id="loadMore"
+//              data-mdc-auto-init="MDCRipple"
+//              disabled>Load More</button> // TODO load more should be taken from resources
+//    </div>
+//  </div>
+//{/template}
+
 {template .userTile}
+  {@param login: any}
+  {@param avatarUrl: any}
   <li class="mdc-grid-tile">
     <div class="mdc-grid-tile__primary">
       <img class="mdc-grid-tile__primary-content" src="{$avatarUrl}"/>
