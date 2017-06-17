@@ -26,10 +26,14 @@ import com.google.gwt.core.client.GWT;
 import rx.plugins.RxJavaHooks;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
+ * Component which will initialize proper error handling for this app.
+ *
  * @author morisil
  */
+@Singleton
 public class ErrorHandling {
 
   private final ExceptionHandler exceptionHandler;

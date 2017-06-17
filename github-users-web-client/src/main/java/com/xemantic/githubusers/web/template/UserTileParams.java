@@ -22,14 +22,17 @@
 
 package com.xemantic.githubusers.web.template;
 
-import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 /**
+ * Represents parameters of the {@link Templates#userTile(UserTileParams)} method.
+ * Note: this class can be auto-generated in the future.
+ *
  * @author morisil
  */
-public class Templates {
-
-  @JsMethod(namespace = "app.templates", name = "userTile")
-  public static native void userTile(UserTileData data);
-
+@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+public class UserTileParams {
+  public String avatarUrl;
+  public String login;
 }

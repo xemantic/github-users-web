@@ -23,10 +23,18 @@
 
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN"
     "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
-<module>
+<module rename-to="GitHubUsers">
 
-  <source path="" />
+  <source path="web" />
 
-  <inherits name="com.intendia.rxgwt.RxElemental2" />
+  <inherits name="com.xemantic.ankh.Ankh" />
+
+  <inherits name="com.xemantic.githubusers.GitHubUsers" />
+
+  <inherits name="com.intendia.gwt.autorest.AutoRest" />
+
+  <entry-point class="com.xemantic.githubusers.web.GitHubUsersEntryPoint" />
+
+  <collapse-all-properties />
 
 </module>

@@ -20,36 +20,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.error;
+package com.xemantic.githubusers.web.model;
 
-import com.google.gwt.core.client.GWT;
-import com.intendia.gwt.autorest.client.RequestResourceBuilder;
-import com.xemantic.githubusers.web.components.Snackbar;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.xemantic.githubusers.logic.model.User;
+import com.xemantic.githubusers.web.service.json.JsonUser;
 
 /**
+ * Web version of the {@link User}. Adapts Java calls
+ * to the raw JSON object.
+ *
  * @author morisil
  */
-@Singleton
-public class ExceptionHandler implements GWT.UncaughtExceptionHandler {
+public class WebUser implements User {
 
-  private final Snackbar snackbar;
+  private final JsonUser payload;
 
-  @Inject
-  public ExceptionHandler(Snackbar snackbar) {
-    this.snackbar = snackbar;
+  public WebUser(JsonUser payload) {
+    this.payload = payload;
   }
 
   @Override
-  public void onUncaughtException(Throwable e) {
-    GWT.log(e.getMessage(), e);
-    if (e instanceof RequestResourceBuilder.FailedStatusCodeException) {
-      snackbar.show(
-          "It seems that you reached GitHub's limit of 10 requests per minute :(" +
-          "try again in a while: " + e.getMessage());
-    }
+  public String getLogin() {
+    return payload.login;
+  }
+
+  @Override
+  public String getAvatarUrl() {
+    return payload.avatar_url;
+  }
+
+  @Override
+  public String getHtmlUrl() {
+    return payload.html_url;
   }
 
 }

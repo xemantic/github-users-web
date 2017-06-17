@@ -22,14 +22,19 @@
 
 package com.xemantic.githubusers.web.template;
 
-import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsType;
 
 /**
+ * All the templates of this app. Every template added in the {@code templates.soy}
+ * file should be also added here. This file can be auto-generated.
+ *
  * @author morisil
  */
-@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-public class UserTileData {
-  public String avatarUrl;
-  public String login;
+@JsType(namespace = "com.xemantic.githubusers.web", name = "template")
+public class Templates {
+
+  @JsMethod
+  public static native void userTile(UserTileParams data);
+
 }

@@ -20,42 +20,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.service;
+package com.xemantic.githubusers.web.view;
 
-import com.intendia.gwt.autorest.client.ResourceVisitor;
-import com.xemantic.githubusers.logic.model.SearchResult;
-import com.xemantic.githubusers.logic.service.UserService;
-import com.xemantic.githubusers.web.model.DefaultSearchResult;
-import com.xemantic.githubusers.web.service.json.JsonSearchResult;
-import rx.Single;
+import com.intendia.rxgwt.elemental2.RxElemental2;
+import com.xemantic.githubusers.logic.view.UserQueryView;
+import com.xemantic.ankh.elemental.Elements;
+import elemental2.dom.HTMLInputElement;
+import rx.Observable;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * @author morisil
  */
-@Singleton
-public class DefaultUserSevice implements UserService {
+public class WebUserQueryView implements UserQueryView {
 
-  private final ResourceVisitor.Supplier path;
+  private final Observable<String> query$;
 
   @Inject
-  public DefaultUserSevice(ResourceVisitor.Supplier path) {
-    this.path = path;
+  public WebUserQueryView() {
+    HTMLInputElement input = (HTMLInputElement) Elements.query("#queryInput");
+    query$ = RxElemental2.fromEvent(input, RxElemental2.input)
+        .map(event -> input.value);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public Single<SearchResult> find(String query, int page, int perPage) {
-    return path.get()
-        .method("GET")
-        .path("search", "users")
-        .param("q", query)
-        .param("page", page)
-        .param("per_page", perPage)
-        .<Single<JsonSearchResult>>as(Single.class, JsonSearchResult.class)
-        .map(DefaultSearchResult::new);
+  public Observable<String> observeQueryInput() {
+    return query$;
   }
 
 }

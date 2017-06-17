@@ -31,13 +31,13 @@ import com.xemantic.githubusers.logic.service.UserService;
 import com.xemantic.githubusers.logic.view.UserListView;
 import com.xemantic.githubusers.logic.view.UserQueryView;
 import com.xemantic.githubusers.logic.view.UserView;
-import com.xemantic.githubusers.web.elemental.Elements;
+import com.xemantic.ankh.elemental.Elements;
 import com.xemantic.githubusers.web.error.DefaultErrorAnalyzer;
-import com.xemantic.githubusers.web.mdc.MDCSnackbar;
-import com.xemantic.githubusers.web.service.DefaultUserSevice;
-import com.xemantic.githubusers.web.view.DefaultUserListView;
-import com.xemantic.githubusers.web.view.DefaultUserQueryView;
-import com.xemantic.githubusers.web.view.DefaultUserView;
+import com.xemantic.ankh.mdc.MDCSnackbar;
+import com.xemantic.githubusers.web.service.WebUserService;
+import com.xemantic.githubusers.web.view.WebUserListView;
+import com.xemantic.githubusers.web.view.WebUserQueryView;
+import com.xemantic.githubusers.web.view.WebUserView;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -68,7 +68,7 @@ public abstract class GitHubUsersModule {
 
   @Binds
   @Singleton
-  abstract UserService getUserService(DefaultUserSevice sevice);
+  abstract UserService getUserService(WebUserService sevice);
 
   @Provides
   @Singleton
@@ -77,14 +77,14 @@ public abstract class GitHubUsersModule {
   }
 
   @Binds
-  abstract UserQueryView getUserQueryView(DefaultUserQueryView view);
+  abstract UserQueryView getUserQueryView(WebUserQueryView view);
 
   @Binds
-  abstract UserListView getUserListView(DefaultUserListView view);
+  abstract UserListView getUserListView(WebUserListView view);
 
   @Provides
   static UserView getUserView() { //(DefaultUserViewProvider provider) {
-    return new DefaultUserView();
+    return new WebUserView();
   }
 
   @Provides

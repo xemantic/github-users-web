@@ -19,61 +19,53 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.xemantic.githubusers.web.view;
 
 import com.intendia.rxgwt.elemental2.RxElemental2;
 import com.xemantic.githubusers.logic.eventbus.Trigger;
-import com.xemantic.githubusers.logic.view.UserListView;
+import com.xemantic.githubusers.logic.model.User;
 import com.xemantic.githubusers.logic.view.UserView;
-import com.xemantic.githubusers.web.elemental.Elements;
+import com.xemantic.ankh.incrementaldom.IncrementalDom;
+import com.xemantic.githubusers.web.template.Templates;
+import com.xemantic.githubusers.web.template.UserTileParams;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
-import elemental2.dom.HTMLButtonElement;
-import elemental2.dom.HTMLElement;
 import rx.Observable;
-
-import javax.inject.Inject;
 
 /**
  * @author morisil
  */
-public class DefaultUserListView implements UserListView {
+public class WebUserView implements UserView {
 
-  private final HTMLElement userTiles;
+  // TODO rework UserView creation to be more explicitly dependant on parent state
 
-  private final HTMLButtonElement loadMore;
+  private final Element tile;
+  {
+    Element parent = DomGlobal.document.querySelector("#userTiles");
+    tile = DomGlobal.document.createElement("li");
+    parent.appendChild(tile);
+  }
 
-  private final Observable<Trigger> loadMore$;
+  private final Observable<Trigger> selection$ = RxElemental2.fromEvent(tile, RxElemental2.click)
+      .map(event -> Trigger.INSTANCE);
 
-  @Inject
-  public DefaultUserListView() {
-    userTiles = (HTMLElement) Elements.query("#userTiles");
-    loadMore = (HTMLButtonElement) Elements.query("#loadMore");
-    loadMore$ = RxElemental2.fromEvent(loadMore, RxElemental2.click) // TODO do I need touch as well ?
-        .map(event -> Trigger.INSTANCE);
+  @Override
+  public void displayUser(User user) {
+    UserTileParams data = new UserTileParams();
+    data.login = user.getLogin();
+    data.avatarUrl = user.getAvatarUrl() + "&s=200"; // we can rescale server side here
+    IncrementalDom.patchOuter(tile, () -> Templates.userTile(data));
+
+    // it would be also possible to patch initially without data and patch it again here for update
   }
 
   @Override
-  public void add(UserView userView) {
-    Element tile = ((DefaultUserView) userView).asElement();
-    userTiles.appendChild(tile);
+  public Observable<Trigger> observeSelection() {
+    return selection$;
   }
 
-  @Override
-  public void clear() {
-    while (userTiles.hasChildNodes()) {
-      userTiles.removeChild(userTiles.lastChild);
-    }
-  }
-
-  @Override
-  public Observable<Trigger> observeLoadMore() {
-    return loadMore$;
-  }
-
-  @Override
-  public void enableLoadMore(boolean enabled) {
-    loadMore.disabled = ! enabled;
+  Element asElement() {
+    return tile;
   }
 
 }
