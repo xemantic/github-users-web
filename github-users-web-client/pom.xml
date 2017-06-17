@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ github-users-web - lists GitHub users. Minimal app demonstrating
+  ~ cross-platform app development (Web, Android, iOS) where core
+  ~ logic is shared and transpiled from Java to JavaScript and
+  ~ Objective-C. This project delivers Web version.
+  ~
+  ~ Copyright (C) 2017  Kazimierz Pogoda
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.xemantic.githubusers</groupId>
+    <artifactId>github-users-web</artifactId>
+    <version>1.0.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>github-users-web-client</artifactId>
+  <packaging>gwt-app</packaging>
+
+  <dependencies>
+    <!-- dependency on shared core logic -->
+    <dependency>
+      <groupId>com.xemantic.githubusers</groupId>
+      <artifactId>github-users</artifactId>
+    </dependency>
+    <!-- sources are needed for GWT compiler -->
+    <dependency>
+      <groupId>com.xemantic.githubusers</groupId>
+      <artifactId>github-users</artifactId>
+      <classifier>sources</classifier>
+    </dependency>
+
+    <!-- GWT dependencies -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope> <!-- it won't be included in the war -->
+    </dependency>
+    <dependency>
+      <groupId>com.google.elemental2</groupId>
+      <artifactId>elemental2-dom</artifactId>
+    </dependency>
+
+    <!-- dependency injection -->
+    <dependency>
+      <groupId>com.google.dagger</groupId>
+      <artifactId>dagger-gwt</artifactId>
+    </dependency>
+
+    <!-- RxJava, AutoRest, RxGwt -->
+    <dependency>
+      <groupId>com.intendia.gwt.autorest</groupId>
+      <artifactId>autorest-gwt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.intendia.gwt</groupId>
+      <artifactId>rxjava-gwt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.intendia.gwt.rxgwt</groupId>
+      <artifactId>rxgwt</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>com.google.dagger</groupId>
+              <artifactId>dagger-compiler</artifactId>
+              <version>${dagger.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.ltgt.gwt.maven</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <configuration>
+          <moduleName>com.xemantic.githubusers.GitHubUsersWeb</moduleName>
+          <!--
+            the next 2 options will be needed in the future, when also
+            GWT-produced files will be processed by the Closure Compiler
+           -->
+          <!--<style>PRETTY</style>
+          <compilerArgs>-XclosureFormattedOutput</compilerArgs>-->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
