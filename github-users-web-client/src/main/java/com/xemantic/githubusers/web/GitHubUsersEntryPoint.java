@@ -25,10 +25,16 @@ package com.xemantic.githubusers.web;
 import com.google.gwt.core.client.EntryPoint;
 
 /**
+ * GWT entry point starting the app.
+ *
  * @author morisil
  */
 public class GitHubUsersEntryPoint implements EntryPoint {
 
+  /**
+   * Creates {@link GitHubUsersAppComponent}, obtains {@link GitHubUsersApp}
+   * and starts it.
+   */
   @Override
   public void onModuleLoad() {
     DaggerGitHubUsersAppComponent.create().getApp().start();

@@ -22,20 +22,19 @@
 
 package com.xemantic.githubusers.web;
 
-import dagger.Component;
-
-import javax.inject.Singleton;
+import jsinterop.annotations.JsMethod;
 
 /**
- * Definition of the dagger component which will be used
- * for provisioning {@link GitHubUsersApp} instance.
+ * Util class providing access to the {@code com.xemantic.githubusers.app}
+ * JS module. See the {@code github-users-web-server} module for details.
  *
  * @author morisil
  */
-@Component(modules = GitHubUsersModule.class)
-@Singleton
-public interface GitHubUsersAppComponent {
+public final class GitHubUsersJsApp {
 
-  GitHubUsersApp getApp();
+  private GitHubUsersJsApp() { /* util class, non-instantiable */ }
+
+  @JsMethod
+  public static native void start();
 
 }

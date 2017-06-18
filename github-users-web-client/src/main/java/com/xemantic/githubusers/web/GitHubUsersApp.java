@@ -33,6 +33,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
+ * The main app starting all the subsystems.
+ * It will be instantiated by Dagger with all the dependencies injected.
+ *
  * @author morisil
  */
 @Singleton
@@ -58,6 +61,7 @@ public class GitHubUsersApp {
     userSelectionNavigator.start();
     userQueryPresenter.start(userQueryView);
     userListPresenter.start(userListView);
+    GitHubUsersJsApp.start();
   }
 
 }

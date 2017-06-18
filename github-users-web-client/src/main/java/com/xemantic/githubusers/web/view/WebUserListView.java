@@ -35,6 +35,8 @@ import rx.Observable;
 import javax.inject.Inject;
 
 /**
+ * Web version of the {@link UserListView}.
+ *
  * @author morisil
  */
 public class WebUserListView implements UserListView {
