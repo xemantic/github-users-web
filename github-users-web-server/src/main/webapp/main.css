@@ -33,6 +33,11 @@ body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
+.mdc-toolbar__row {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+
 .mdc-toolbar a, .mdc-toolbar a:visited {
   text-decoration: none;
   color: #f0f0f0;
@@ -41,6 +46,7 @@ body {
 .searchBox {
   margin-top: -7px;
   margin-bottom: -25px;
+  margin-right: 35px;
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 38px;

@@ -31,6 +31,9 @@ goog.require("com.xemantic.ankh.incrementaldom");
 goog.require("com.xemantic.githubusers.web.template");
 
 function start() {
+
+  mdc.autoInit();
+
   /* menu */
   var drawerElement = document.querySelector(".mdc-temporary-drawer");
   var drawer = new mdc.drawer.MDCTemporaryDrawer(drawerElement);
