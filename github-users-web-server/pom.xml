@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ github-users-web - lists GitHub users. Minimal app demonstrating
+  ~ cross-platform app development (Web, Android, iOS) where core
+  ~ logic is shared and transpiled from Java to JavaScript and
+  ~ Objective-C. This project delivers Web version.
+  ~
+  ~ Copyright (C) 2017  Kazimierz Pogoda
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.xemantic.githubusers</groupId>
+    <artifactId>github-users-web</artifactId>
+    <version>1.0.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>github-users-web-server</artifactId>
+  <packaging>war</packaging>
+
+  <dependencies>
+    <!-- will merge compiled client JS into this war -->
+    <dependency>
+      <groupId>com.xemantic.githubusers</groupId>
+      <artifactId>github-users-web-client</artifactId>
+    </dependency>
+
+    <!-- this dependency is marked here just to establish execution order -->
+    <dependency>
+      <groupId>com.xemantic.githubusers</groupId>
+      <artifactId>github-users-web-compiler-js</artifactId>
+      <type>pom</type>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+          <scanIntervalSeconds>1</scanIntervalSeconds>
+          <!--<webApp>
+            <extraClasspath>${basedir}/../github-users-web-shared/target/classes/</extraClasspath>
+          </webApp>-->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <!-- XXX: We want to exclude github-users-web-client from 'env-dev' profile, Maven forces us to make a 'env-prod' profile -->
+      <id>env-prod</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${project.groupId}</groupId>
+          <artifactId>github-users-web-client</artifactId>
+          <version>${project.version}</version>
+          <type>war</type>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>env-dev</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.jetty</groupId>
+              <artifactId>jetty-maven-plugin</artifactId>
+              <configuration>
+                <webApp>
+                  <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+                    <resourcesAsCSV>src/main/webapp,${basedir}/../target/gwt/launcherDir/</resourcesAsCSV>
+                  </baseResource>
+                </webApp>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+</project>
