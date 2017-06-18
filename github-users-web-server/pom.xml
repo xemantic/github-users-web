@@ -65,6 +65,18 @@
           </webApp>-->
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <packagingExcludes>
+            WEB-INF/lib/*,
+            node_modules/google-closure-*/**,
+            node_modules/@material/**,
+            node_modules/incremental-dom/**,
+          </packagingExcludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
