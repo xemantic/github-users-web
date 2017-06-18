@@ -33,7 +33,9 @@ import jsinterop.annotations.JsMethod;
  *
  * @author morisil
  */
-public class IncrementalDom {
+public final class IncrementalDom {
+
+  private IncrementalDom() { /* util class, non-instantiable */ }
 
   @JsMethod
   public static native void patch(Element element, Patcher patcher);
