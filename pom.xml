@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  github-users-web - lists GitHub users. Minimal app demonstrating
-  cross-platform app development (Web, Android, iOS) where core
-  logic is shared and transpiled from Java to JavaScript and
-  Objective-C. This project delivers Web version.
-
-  Copyright (C) 2017  Kazimierz Pogoda
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~ github-users-web - lists GitHub users. Minimal app demonstrating
+  ~ cross-platform app development (Web, Android, iOS) where core
+  ~ logic is shared and transpiled from Java to JavaScript and
+  ~ Objective-C. This project delivers Web version.
+  ~
+  ~ Copyright (C) 2017  Kazimierz Pogoda
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -26,246 +26,228 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.xemantic.githubusers</groupId>
   <artifactId>github-users-web</artifactId>
   <version>1.0.0.0-SNAPSHOT</version>
-  <packaging>gwt-app</packaging>
+  <packaging>pom</packaging>
+
+  <description>
+    Lists GitHub users. Minimal app demonstrating cross-platform app development
+    (Web, Android, iOS) where core logic is shared and transpiled from Java to
+    JavaScript and Objective-C. This project delivers Web version.
+  </description>
+
+  <developers>
+    <developer>
+      <id>morisil</id>
+      <name>Kazik Pogoda</name>
+      <organization>Xemantic</organization>
+      <organizationUrl>https://xemantic.com</organizationUrl>
+    </developer>
+  </developers>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <github-users.version>1.0.0-SNAPSHOT</github-users.version>
+    <gwt.version>2.8.1</gwt.version>
+    <dagger.version>2.11</dagger.version>
+    <node.version>v8.1.2</node.version>
   </properties>
+
+  <modules>
+    <module>github-users-web-client</module>
+    <module>github-users-web-install-js</module>
+    <module>github-users-web-compiler-templates</module>
+    <module>github-users-web-compiler-js</module>
+    <module>github-users-web-server</module>
+  </modules>
 
   <dependencyManagement>
     <dependencies>
+      <!-- project modules -->
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users-web-client</artifactId>
+        <version>${project.version}</version>
+        <exclusions>
+          <!--
+           We need gwt-dev excluded here to avoid catch 22 situation:
+            * github-users-web-server is using maven-jetty-plugin and it's classpath conflicts with gwt-dev dependencies
+            * github-users-web-client cannot start codeserver if gwt-dev is not provided as compile dependency
+           -->
+          <exclusion>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users-web-install-js</artifactId>
+        <type>pom</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users-web-compiler-templates</artifactId>
+        <type>pom</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users-web-compiler-js</artifactId>
+        <type>pom</type>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- dependency on shared core logic -->
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users</artifactId>
+        <version>${github-users.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users</artifactId>
+        <version>${github-users.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <!-- GWT + Google -->
       <dependency>
         <groupId>com.google.gwt</groupId>
-        <artifactId>gwt</artifactId>
-        <version>2.8.1</version>
-        <type>pom</type>
-        <scope>import</scope>
+        <artifactId>gwt-user</artifactId>
+        <version>${gwt.version}</version>
+        <exclusions>
+          <!-- com.google.elemental2 is used instead -->
+          <exclusion>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-elemental</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-dev</artifactId>
+        <version>${gwt.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.elemental2</groupId>
+        <artifactId>elemental2-dom</artifactId>
+        <version>1.0.0-beta-1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.dagger</groupId>
+        <artifactId>dagger-gwt</artifactId>
+        <version>${dagger.version}</version>
+      </dependency>
+
+      <!-- Intendia dependencies, RxJava, AutoRest, RxGwt -->
+      <dependency>
+        <groupId>com.intendia.gwt.autorest</groupId>
+        <artifactId>autorest-gwt</artifactId>
+        <version>0.6</version>
+        <exclusions>
+          <!-- com.google.elemental2 is used instead -->
+          <exclusion>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-elemental</artifactId>
+          </exclusion>
+          <!--
+            gwt-dev is referenced by this library in scope compile, which
+            causes conflicts in the classpath of maven-jetty-plugin in the
+            github-users-web-server module
+           -->
+          <exclusion>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-dev</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.intendia.gwt</groupId>
+        <artifactId>rxjava-gwt</artifactId>
+        <version>1.3.0-beta2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.intendia.gwt.rxgwt</groupId>
+        <artifactId>rxgwt</artifactId>
+        <version>0.2</version>
+      </dependency>
+
+      <!-- tools -->
+      <dependency>
+        <groupId>com.google.template</groupId>
+        <artifactId>soy</artifactId>
+        <version>2017-04-23</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.javascript</groupId>
+        <artifactId>closure-compiler-unshaded</artifactId>
+        <version>v20170521</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.xemantic.githubusers</groupId>
-      <artifactId>github-users</artifactId>
-      <version>${github-users.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>io.reactivex</groupId>
-          <artifactId>rxjava</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.xemantic.githubusers</groupId>
-      <artifactId>github-users</artifactId>
-      <version>${github-users.version}</version>
-      <classifier>sources</classifier>
-      <exclusions>
-        <exclusion>
-          <groupId>io.reactivex</groupId>
-          <artifactId>rxjava</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.gwt</groupId>
-          <artifactId>gwt-elemental</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.elemental2/elemental2-dom -->
-
-    <!-- https://mvnrepository.com/artifact/com.intendia.gwt.autorest/autorest-gwt -->
-    <dependency>
-      <groupId>com.intendia.gwt.autorest</groupId>
-      <artifactId>autorest-gwt</artifactId>
-      <version>0.6</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.gwt</groupId>
-          <artifactId>gwt-elemental</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.intendia.gwt</groupId>
-      <artifactId>rxjava-gwt</artifactId>
-      <version>1.2.10-beta1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.intendia.gwt.rxgwt</groupId>
-      <artifactId>rxgwt</artifactId>
-      <version>0.2</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.google.elemental2/elemental2-dom -->
-    <dependency>
-      <groupId>com.google.elemental2</groupId>
-      <artifactId>elemental2-dom</artifactId>
-      <version>1.0.0-beta-1</version>
-    </dependency>
-
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>2.7.22</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>java-hamcrest</artifactId>
-      <version>2.0.0.0</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.dagger</groupId>
-      <artifactId>dagger-gwt</artifactId>
-      <version>2.11-rc2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.dagger</groupId>
-      <artifactId>dagger-compiler</artifactId>
-      <version>2.11-rc2</version>
-    </dependency>
-
-  </dependencies>
-
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
-        <configuration>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>com.google.dagger</groupId>
-              <artifactId>dagger-compiler</artifactId>
-              <version>2.11-rc2</version>
-            </path>
-          </annotationProcessorPaths>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.0-rc-7</version>
-        <extensions>true</extensions>
+        <inherited>false</inherited>
         <configuration>
-          <moduleName>com.xemantic.githubusers.GitHubUsersWeb</moduleName>
-          <startupUrls>/GitHubUsersWeb/index.html</startupUrls>
+          <launcherDir>${project.build.directory}/gwt/launcherDir</launcherDir>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.4</version>
-        <!--<configuration>
-          <installDirectory>.</installDirectory>
-          <workingDirectory>src/main/java/com/xemantic/githubusers/public</workingDirectory>
-        </configuration>-->
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <!-- optional: default phase is "generate-resources" -->
-            <phase>generate-resources</phase>
-            <configuration>
-              <nodeVersion>v7.10.0</nodeVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>install --save material-components-web google-closure-templates google-closure-library incremental-dom</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version> <!-- 1.6.0 throws NPE -->
-        <executions>
-          <execution>
-            <id>compile-template</id>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <includePluginDependencies>true</includePluginDependencies>
-              <executableDependency>
-                <groupId>com.google.template</groupId>
-                <artifactId>soy</artifactId>
-              </executableDependency>
-              <mainClass>com.google.template.soy.SoyToIncrementalDomSrcCompiler</mainClass>
-              <commandlineArgs>--srcs src/main/soy/templates.soy --outputPathFormat src/main/java/com/xemantic/githubusers/public/templates.js</commandlineArgs>
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <includePluginDependencies>true</includePluginDependencies>
-            </configuration>
-          </execution>
-          <execution>
-            <id>compile-closure</id>
-            <goals>
-              <goal>java</goal>
-            </goals>
-            <configuration>
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <includePluginDependencies>true</includePluginDependencies>
-              <executableDependency>
-                <groupId>com.google.javascript</groupId>
-                <artifactId>closure-compiler-unshaded</artifactId>
-              </executableDependency>
-              <mainClass>com.google.javascript.jscomp.CommandLineRunner</mainClass>
-              <commandlineArgs>--js_output_file=src/main/java/com/xemantic/githubusers/public/compiled.js node_modules/google-closure-library/closure/goog/base.js node_modules/google-closure-library/closure/goog/object/object.js node_modules/google-closure-library/closure/goog/string/string.js node_modules/google-closure-library/closure/goog/string/const.js node_modules/google-closure-library/closure/goog/string/stringbuffer.js node_modules/google-closure-library/closure/goog/string/typedstring.js node_modules/google-closure-library/closure/goog/i18n/bidi.js node_modules/google-closure-library/closure/goog/i18n/bidiformatter.js node_modules/google-closure-library/closure/goog/i18n/graphemebreak.js node_modules/google-closure-library/closure/goog/html/safehtml.js node_modules/google-closure-library/closure/goog/html/safestyle.js node_modules/google-closure-library/closure/goog/html/safeurl.js node_modules/google-closure-library/closure/goog/html/uncheckedconversions.js node_modules/google-closure-library/closure/goog/html/legacyconversions.js node_modules/google-closure-library/closure/goog/html/trustedresourceurl.js node_modules/google-closure-library/closure/goog/html/safescript.js node_modules/google-closure-library/closure/goog/html/safestylesheet.js node_modules/google-closure-library/closure/goog/format/format.js node_modules/google-closure-library/closure/goog/dom/dom.js node_modules/google-closure-library/closure/goog/dom/tagname.js node_modules/google-closure-library/closure/goog/dom/tags.js node_modules/google-closure-library/closure/goog/dom/nodetype.js node_modules/google-closure-library/closure/goog/dom/safe.js node_modules/google-closure-library/closure/goog/dom/htmlelement.js node_modules/google-closure-library/closure/goog/dom/browserfeature.js node_modules/google-closure-library/closure/goog/array/array.js node_modules/google-closure-library/closure/goog/asserts/asserts.js node_modules/google-closure-library/closure/goog/uri/uri.js node_modules/google-closure-library/closure/goog/uri/utils.js node_modules/google-closure-library/closure/goog/structs/structs.js node_modules/google-closure-library/closure/goog/structs/map.js node_modules/google-closure-library/closure/goog/structs/inversionmap.js node_modules/google-closure-library/closure/goog/iter/iter.js node_modules/google-closure-library/closure/goog/math/math.js node_modules/google-closure-library/closure/goog/math/size.js node_modules/google-closure-library/closure/goog/math/coordinate.js node_modules/google-closure-library/closure/goog/functions/functions.js node_modules/google-closure-library/closure/goog/fs/url.js node_modules/google-closure-library/closure/goog/labs/useragent/browser.js node_modules/google-closure-library/closure/goog/labs/useragent/util.js node_modules/google-closure-library/closure/goog/labs/useragent/platform.js node_modules/google-closure-library/closure/goog/labs/useragent/engine.js node_modules/google-closure-library/closure/goog/useragent/useragent.js node_modules/google-closure-library/closure/goog/reflect/reflect.js node_modules/google-closure-library/closure/goog/debug/error.js node_modules/google-closure-library/closure/goog/soy/data.js node_modules/google-closure-library/closure/goog/soy/soy.js node_modules/google-closure-templates/javascript/soyutils_usegoog.js src/main/java/com/xemantic/githubusers/public/templates.js src/main/javascript/*.js src/main/java/com/xemantic/githubusers/public/index.js lib/js/incemental-dom/incremental-dom-closure.js lib/js/closure-templates/soyutils_idom.js</commandlineArgs>
-              <!--compilation_level ADVANCED_OPTIMIZATIONS  -->
-              <includeProjectDependencies>false</includeProjectDependencies>
-              <includePluginDependencies>true</includePluginDependencies>
-            </configuration>
-          </execution>
-        </executions>
-
-        <dependencies>
-          <dependency>
-            <groupId>com.google.template</groupId>
-            <artifactId>soy</artifactId>
-            <version>2017-04-23</version>
-            <type>jar</type>
-          </dependency>
-          <dependency>
-            <groupId>com.google.javascript</groupId>
-            <artifactId>closure-compiler-unshaded</artifactId>
-            <version>v20170521</version>
-          </dependency>
-        </dependencies>
-      </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.6.1</version>
+          <!--
+            Suggestion from the original archetype:
+
+            "Do not upgrade past 3.1 to avoid triggering https://issues.apache.org/jira/browse/MSOURCES-95"
+
+            But we need newer version for the dagger annotation processor to work,
+            and also the bug seems to be related to the maven-source-plugin not the
+            compiler plugin.
+           -->
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>9.4.4.v20170414</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>net.ltgt.gwt.maven</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <version>1.0-rc-7</version>
+          <extensions>true</extensions>
+          <configuration>
+            <sourceLevel>${maven.compiler.source}</sourceLevel>
+            <failOnError>true</failOnError>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.6.0</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>1.4</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
 </project>
