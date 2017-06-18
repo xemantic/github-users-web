@@ -46,6 +46,12 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
+ * Dagger module defining component binding for the whole app.
+ * <p>
+ *   Note: might be split in the future into separate modules for different
+ *   subsystems.
+ * </p>
+ *
  * @author morisil
  */
 @Module

@@ -33,6 +33,8 @@ import elemental2.dom.Element;
 import rx.Observable;
 
 /**
+ * Web version of the {@link UserView}.
+ *
  * @author morisil
  */
 public class WebUserView implements UserView {

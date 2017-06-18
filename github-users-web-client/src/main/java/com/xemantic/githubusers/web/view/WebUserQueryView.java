@@ -31,6 +31,8 @@ import rx.Observable;
 import javax.inject.Inject;
 
 /**
+ * Web version of the {@link UserQueryView}.
+ *
  * @author morisil
  */
 public class WebUserQueryView implements UserQueryView {
