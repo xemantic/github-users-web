@@ -4,16 +4,25 @@ Minimal app demonstrating cross-platform app development (Web, Android, iOS)
 where core logic is shared and transpiled from Java to JavaScript and
 Objective-C. This project delivers Web version.
 
-The core logic is provided by the [github-users](https://github.com/xemantic/github-users)
+Note: shared logic is provided by the [github-users](https://github.com/xemantic/github-users)
 project.
 
-# Running the project during development
+# Demo
+
+https://github-users-web.appspot.com/
+
+# Status
+
+As you can see from the demo, this project already delivers the full build toolchain for Web
+application. Still there are several things [TODO](TODO.md).
+
+# Development
 
 Running the project during development requires starting the codeserver (GWT Super Dev Mode)
 in parallel with regular Jetty servlet container serving static resources and in the future
 also server part of the application.
 
-/!\ Note: In order to start jetty in the `github-users-web-server`
+/!\ Note: In order to start jetty from within the `github-users-web-server`
 module you will need to install dependant modules first:
 
     $ mvn install
@@ -21,7 +30,7 @@ module you will need to install dependant modules first:
 It's one time action which will also verify if the project builds correctly in your
 environment.
 
-Open 2 terminals and invoke these commends:
+Open 2 terminals and invoke these commands:
 
     $ mvn gwt:codeserver -pl *-client -am
 
@@ -30,7 +39,7 @@ And then:
     $ cd *-server
     $ mvn jetty:run -Denv=dev
 
-Then heat your browser to:
+Head your browser to:
 
 http://localhost:8080/index-dev.html
 
@@ -45,7 +54,7 @@ expected production environment.
 
 Interoperability between pure JS code, GWT compiled code, Closure Library and Closure Compiler
 requires quite complex setup. Especially when development process is based on uncompiled
-JavaScript and GWT Super Dev Mode and highly processed version of these sources
+JavaScript and GWT Super Dev Mode but highly processed version of these sources
 will be used in production. This projects attempts to cover all the tools needed when
 developing and building such a project and also automate as much as possible in the process.
 
@@ -59,7 +68,7 @@ generalized maven archetype automating creation of such an application.
 ## github-users-web-client
 
 GWT client code which will be transpiled to JS. When building the project, this module
-will provide an artifact it the form of WAR archive containing only compiled static web
+will provide an artifact in the form of WAR archive containing only compiled static web
 resources.
 
 During development the `codeserver` can be started out of this module as well.
@@ -85,34 +94,3 @@ They should be a part of `github-users-web-server` build definition, but are sep
 workaround to inflexibility of the `maven-exec-plugin` which does not allow separate classpaths
 for each forked java process, unless it is separate maven module. These tools should be
 also executed in specified order which is achieved thanks to explicit dependency chain.
-
-# TODO
-
-## Search box
-
-### Search box look
-
-Style it the same way as it is done here:
-
-https://google.github.io/closure-library/api/
-
-### Search box feel
-
-* The search box should gain focus on startup
-* The search prompt should be localized
-
-## Progress bar
-
-There should be some horizontal progress bar, just below the toolbar,
-indicating any operation which might take some time to finish -
-in this case provision of search results.
-
-https://material-components-web.appspot.com/linear-progress.html
-
-The core logic of `github-users` should be extended for this purpose.
-
-## I18N
-
-Localized message templates should be stored as `.soy` closure templates
-and provided by the `github-users` project. The question remains how to unpack them
-from the archive and reference in the `github-users-web` code?
