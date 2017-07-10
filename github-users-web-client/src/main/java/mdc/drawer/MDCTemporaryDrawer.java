@@ -20,19 +20,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.template;
+package mdc.drawer;
 
-import jsinterop.annotations.JsPackage;
+import elemental2.dom.Element;
+import jsinterop.annotations.JsConstructor;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 /**
- * Represents parameters of the {@link Templates#userTile(UserTileParams)} method.
- * Note: this class can be auto-generated in the future.
+ * Java representation of the {@code MDCTemporaryDrawer}.
+ * See <a href="https://material.io/components/web/catalog/drawers/">Material
+ * Components for the Web: Drawers</a>.
  *
  * @author morisil
  */
-@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-public class UserTileParams {
-  public String avatarUrl;
-  public String login;
+@JsType(isNative = true)
+public class MDCTemporaryDrawer {
+
+  @JsConstructor
+  public MDCTemporaryDrawer(Element element) {}
+
+  @JsProperty
+  public boolean open;
+
 }
