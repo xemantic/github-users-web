@@ -22,14 +22,15 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
+import com.xemantic.ankh.Elements;
+import com.xemantic.ankh.incrementaldom.IncrementalDom;
 import com.xemantic.githubusers.logic.eventbus.Trigger;
 import com.xemantic.githubusers.logic.view.UserListView;
 import com.xemantic.githubusers.logic.view.UserView;
-import com.xemantic.ankh.elemental.Elements;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
+import mdc.gridList.MDCGridList;
 import rx.Observable;
 
 import javax.inject.Inject;
@@ -39,33 +40,36 @@ import javax.inject.Inject;
  *
  * @author morisil
  */
-public class WebUserListView implements UserListView {
+public class WebUserListView implements UserListView, WebView {
+
+  private final Element element;
 
   private final HTMLElement userTiles;
 
-  private final HTMLButtonElement loadMore;
+  private final HTMLButtonElement loadMoreButton;
 
   private final Observable<Trigger> loadMore$;
 
   @Inject
   public WebUserListView() {
-    userTiles = (HTMLElement) Elements.query("#userTiles");
-    loadMore = (HTMLButtonElement) Elements.query("#loadMore");
-    loadMore$ = RxElemental2.fromEvent(loadMore, RxElemental2.click) // TODO do I need touch as well ?
-        .map(event -> Trigger.INSTANCE);
+    element = IncrementalDom.create(Templates::userList);
+    Elements elements = new Elements(element);
+    /* it will center the grid and make it react to window resizing */
+    MDCGridList.attachTo(elements.get(".mdc-grid-list"));
+    userTiles = elements.get(".user-tiles");
+    loadMoreButton = elements.getButton(".load-more-action");
+    loadMore$ = Elements.observeClicksOf(loadMoreButton);
   }
 
   @Override
   public void add(UserView userView) {
-    Element tile = ((WebUserView) userView).asElement();
+    Element tile = ((WebView) userView).asElement();
     userTiles.appendChild(tile);
   }
 
   @Override
   public void clear() {
-    while (userTiles.hasChildNodes()) {
-      userTiles.removeChild(userTiles.lastChild);
-    }
+    Elements.removeChildren(userTiles);
   }
 
   @Override
@@ -75,7 +79,12 @@ public class WebUserListView implements UserListView {
 
   @Override
   public void enableLoadMore(boolean enabled) {
-    loadMore.disabled = ! enabled;
+    loadMoreButton.disabled = ! enabled;
+  }
+
+  @Override
+  public Element asElement() {
+    return element;
   }
 
 }

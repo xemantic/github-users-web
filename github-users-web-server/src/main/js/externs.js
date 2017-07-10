@@ -20,13 +20,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var mdc = {
-  drawer: {
-    MDCTemporaryDrawer: function(element) {}
-  },
-  gridList: {
-    MDCGridList: {
-      attachTo: function(element) {}
-    }
-  }
-};
+/*
+  If your code depends on external JavaScript libraries then symbols of their
+  APIs should be listed here. In ideal world this file is not needed because
+  everything is compiled with Closure Compiler into single minimized bundle
+  where all the analyzed symbols might be renamed in coherent way.
+
+  Here is an example for MDC library:
+
+    var mdc = {
+      drawer: {
+        MDCTemporaryDrawer: function(element) {}
+      },
+      gridList: {
+        MDCGridList: {
+          attachTo: function(element) {}
+        }
+      }
+    };
+ */

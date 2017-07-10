@@ -20,35 +20,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh.components;
+package com.xemantic.githubusers.web.view;
 
-import com.xemantic.ankh.mdc.MDCSnackbar;
+import com.xemantic.githubusers.logic.view.DrawerView;
+import com.xemantic.githubusers.logic.view.SnackbarView;
+import com.xemantic.githubusers.logic.view.UserListView;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
- * Convenient wrapper around {@link MDCSnackbar}. As there should be only one snackbar,
- * it will provide singleton component operating over provided {@link MDCSnackbar}
- * instance. If you need a snackbar then just {@link Inject} this one in your components
- * and use {@link #show(String)} method.
+ * View reflecting visual component hierarchy of this app.
  *
  * @author morisil
  */
-@Singleton
-public class Snackbar {
+public class WebAppView {
 
-  private final MDCSnackbar mdcSnackbar;
+  private final WebScreen webScreen;
 
   @Inject
-  public Snackbar(MDCSnackbar mdcSnackbar) {
-    this.mdcSnackbar = mdcSnackbar;
+  public WebAppView(WebScreen webScreen) {
+    this.webScreen = webScreen;
   }
 
-  public void show(String message) {
-    MDCSnackbar.Data data = new MDCSnackbar.Data();
-    data.message = message;
-    mdcSnackbar.show(data);
+  public void setDrawerView(DrawerView view) {
+    insertInBody(view);
+  }
+
+  public void setSnackbarView(SnackbarView view) {
+    insertInBody(view);
+  }
+
+  public void setUserListView(UserListView view) {
+    webScreen.insertUserList(((WebView) view).asElement());
+  }
+
+  private void insertInBody(Object view) {
+    webScreen.insertInBody(((WebView) view).asElement());
   }
 
 }

@@ -20,34 +20,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.view;
+package com.xemantic.githubusers.web.driver;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.view.UserQueryView;
-import elemental2.dom.HTMLInputElement;
-import rx.Observable;
+import com.xemantic.githubusers.logic.driver.UrlOpener;
+import elemental2.dom.DomGlobal;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
- * Web version of the {@link UserQueryView}.
+ * Web version of the {@link UrlOpener}.
  *
  * @author morisil
  */
-public class WebUserQueryView implements UserQueryView {
-
-  private final Observable<String> query$;
+@Singleton
+public class WebUrlOpener implements UrlOpener {
 
   @Inject
-  public WebUserQueryView(WebScreen webScreen) {
-    HTMLInputElement input = webScreen.getUserQueryInputElement();
-    query$ = RxElemental2.fromEvent(input, RxElemental2.input)
-        .map(event -> input.value);
-  }
+  public WebUrlOpener() { /* empty constructor annotated with @Inject is required by dagger */ }
 
   @Override
-  public Observable<String> observeQueryInput() {
-    return query$;
+  public void openUrl(String url) {
+    DomGlobal.window.open(url);
   }
 
 }

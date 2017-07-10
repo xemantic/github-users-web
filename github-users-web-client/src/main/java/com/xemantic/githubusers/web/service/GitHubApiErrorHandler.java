@@ -20,39 +20,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.navigation;
+package com.xemantic.githubusers.web.service;
 
-import com.xemantic.githubusers.logic.driver.UrlOpener;
-import com.xemantic.githubusers.logic.event.UserSelectedEvent;
+import com.intendia.gwt.autorest.client.RequestResourceBuilder.FailedStatusCodeException;
+import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
 import com.xemantic.githubusers.logic.eventbus.EventBus;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Will open user profile page if the user is selected.
+ * Error handler for GitHub APIs.
  *
  * @author morisil
  */
 @Singleton
-public class UserSelectionNavigator {
+public class GitHubApiErrorHandler {
 
   private final EventBus eventBus;
 
-  private final UrlOpener urlOpener;
-
   @Inject
-  public UserSelectionNavigator(
-      EventBus eventBus,
-      UrlOpener urlOpener) {
-
+  public GitHubApiErrorHandler(EventBus eventBus) {
     this.eventBus = eventBus;
-    this.urlOpener = urlOpener;
   }
 
-  public void start() {
-    eventBus.observe(UserSelectedEvent.class)
-        .subscribe(event -> urlOpener.openUrl(event.getUser().getHtmlUrl()));
+  public void handleError(Throwable throwable) {
+    if (!(
+        (throwable instanceof FailedStatusCodeException)
+        && handleStatusCode((FailedStatusCodeException) throwable)
+        )) {
+      throw new RuntimeException("Unexpected GitHub API error", throwable);
+    }
+  }
+
+  private boolean handleStatusCode(FailedStatusCodeException e) {
+    String message = getMessage(e.getStatusCode());
+    if (message != null) {
+      eventBus.post(new SnackbarMessageEvent(message));
+      return true;
+    }
+    return false;
+  }
+
+  private String getMessage(int statusCode) {
+    String message = null;
+    switch (statusCode) {
+      case 403: message = "Only 10 request per minute allowed. Try again in a while"; break;
+      case 0: message = "You are offline"; break;
+    }
+    return message;
   }
 
 }

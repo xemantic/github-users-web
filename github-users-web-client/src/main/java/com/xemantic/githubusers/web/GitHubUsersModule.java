@@ -24,20 +24,16 @@ package com.xemantic.githubusers.web;
 
 import com.intendia.gwt.autorest.client.RequestResourceBuilder;
 import com.intendia.gwt.autorest.client.ResourceVisitor;
+import com.xemantic.githubusers.logic.driver.UrlOpener;
 import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
 import com.xemantic.githubusers.logic.eventbus.DefaultEventBus;
 import com.xemantic.githubusers.logic.eventbus.EventBus;
 import com.xemantic.githubusers.logic.service.UserService;
-import com.xemantic.githubusers.logic.view.UserListView;
-import com.xemantic.githubusers.logic.view.UserQueryView;
-import com.xemantic.githubusers.logic.view.UserView;
-import com.xemantic.ankh.elemental.Elements;
+import com.xemantic.githubusers.logic.view.*;
+import com.xemantic.githubusers.web.driver.WebUrlOpener;
 import com.xemantic.githubusers.web.error.DefaultErrorAnalyzer;
-import com.xemantic.ankh.mdc.MDCSnackbar;
+import com.xemantic.githubusers.web.view.*;
 import com.xemantic.githubusers.web.service.WebUserService;
-import com.xemantic.githubusers.web.view.WebUserListView;
-import com.xemantic.githubusers.web.view.WebUserQueryView;
-import com.xemantic.githubusers.web.view.WebUserView;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
@@ -57,42 +53,6 @@ import javax.inject.Singleton;
 @Module
 public abstract class GitHubUsersModule {
 
-  @Binds
-  abstract ErrorAnalyzer bindErrorAnalyzer(DefaultErrorAnalyzer analyzer);
-
-  @Provides
-  @Singleton
-  static EventBus getEventBus() {
-    return new DefaultEventBus();
-  }
-
-  @Provides
-  @Singleton
-  static ResourceVisitor.Supplier getResourceVisitorSupplier() {
-    return () -> new RequestResourceBuilder().path("https://api.github.com");
-  }
-
-  @Binds
-  @Singleton
-  abstract UserService getUserService(WebUserService sevice);
-
-  @Provides
-  @Singleton
-  static MDCSnackbar getMDCSnackbar() {
-    return new MDCSnackbar(Elements.query(".mdc-snackbar"));
-  }
-
-  @Binds
-  abstract UserQueryView getUserQueryView(WebUserQueryView view);
-
-  @Binds
-  abstract UserListView getUserListView(WebUserListView view);
-
-  @Provides
-  static UserView getUserView() { //(DefaultUserViewProvider provider) {
-    return new WebUserView();
-  }
-
   @Provides
   @Named("userListPageSize")
   static int getUserListPageSize() {
@@ -103,6 +63,50 @@ public abstract class GitHubUsersModule {
   @Named("gitHubUserSearchLimit")
   static int getGitHubUserSearchLimit() {
     return 1000;
+  }
+
+  @Provides
+  @Named("projectGitHubUrl")
+  static String getProjectGitHubUrl() {
+    return "https://github.com/xemantic/github-users-web";
+  }
+
+  @Provides
+  @Singleton
+  static EventBus getEventBus() {
+    return new DefaultEventBus();
+  }
+
+  @Binds
+  abstract ErrorAnalyzer getErrorAnalyzer(DefaultErrorAnalyzer analyzer);
+
+  @Binds
+  abstract UrlOpener getUrlOpener(WebUrlOpener opener);
+
+  @Binds
+  abstract UserService getUserService(WebUserService service);
+
+  @Binds
+  abstract DrawerView getDrawerView(WebDrawerView view);
+
+  @Binds
+  abstract SnackbarView getSnackbarView(WebSnackbarView view);
+
+  @Binds
+  abstract UserQueryView getUserQueryView(WebUserQueryView view);
+
+  @Binds
+  abstract UserListView getUserListView(WebUserListView view);
+
+  @Provides
+  static UserView getUserView() {
+    return new WebUserView();
+  }
+
+  @Provides
+  @Singleton
+  static ResourceVisitor.Supplier getResourceVisitorSupplier() {
+    return () -> new RequestResourceBuilder().path("https://api.github.com");
   }
 
 }

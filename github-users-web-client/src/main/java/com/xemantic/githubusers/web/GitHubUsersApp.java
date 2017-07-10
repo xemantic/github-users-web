@@ -22,12 +22,17 @@
 
 package com.xemantic.githubusers.web;
 
+import com.xemantic.githubusers.logic.presenter.DrawerPresenter;
+import com.xemantic.githubusers.logic.presenter.SnackbarPresenter;
 import com.xemantic.githubusers.logic.presenter.UserListPresenter;
 import com.xemantic.githubusers.logic.presenter.UserQueryPresenter;
+import com.xemantic.githubusers.logic.view.DrawerView;
+import com.xemantic.githubusers.logic.view.SnackbarView;
 import com.xemantic.githubusers.logic.view.UserListView;
 import com.xemantic.githubusers.logic.view.UserQueryView;
 import com.xemantic.githubusers.web.error.ErrorHandling;
 import com.xemantic.githubusers.web.navigation.UserSelectionNavigator;
+import com.xemantic.githubusers.web.view.WebAppView;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,25 +47,30 @@ import javax.inject.Singleton;
 public class GitHubUsersApp {
 
   @Inject ErrorHandling errorHandling;
-
   @Inject UserSelectionNavigator userSelectionNavigator;
-
   @Inject UserQueryView userQueryView;
-
   @Inject UserQueryPresenter userQueryPresenter;
-
   @Inject UserListView userListView;
-
   @Inject UserListPresenter userListPresenter;
+  @Inject WebAppView appView;
+  @Inject DrawerView drawerView;
+  @Inject DrawerPresenter drawerPresenter;
+  @Inject SnackbarView snackbarView;
+  @Inject SnackbarPresenter snackbarPresenter;
 
   @Inject
-  public GitHubUsersApp() { /* needed by dagger */ }
+  public GitHubUsersApp() { /* Dagger needs constructor annotated with @Inject */ }
 
   public void start() {
     errorHandling.start();
     userSelectionNavigator.start();
-    userQueryPresenter.start(userQueryView);
+    drawerPresenter.start(drawerView);
+    snackbarPresenter.start(snackbarView);
     userListPresenter.start(userListView);
+    userQueryPresenter.start(userQueryView);
+    appView.setDrawerView(drawerView);
+    appView.setSnackbarView(snackbarView);
+    appView.setUserListView(userListView);
     GitHubUsersJsApp.start();
   }
 
