@@ -22,28 +22,29 @@
 
 /*
   Main application module starting non-GWT part of the application.
+  In GWT app it will be represented as GitHubUsersJsApp and the
+  start() method will be called as the last stage in the GitHubUsersApp
  */
 
 goog.module("com.xemantic.githubusers.web.app");
 
 // List of modules not necessarily needed by this app module, but required by other parts of GWT code
 goog.require("com.xemantic.ankh.incrementaldom");
-goog.require("com.xemantic.githubusers.web.template");
+goog.require("com.xemantic.githubusers.web.view.template");
 
 function start() {
+  /*
+    No code to be executed here at the moment.
 
-  mdc.autoInit();
+    Previously this method contained MDC code which is now represented as
+    GWT jsinterop, see the mdc package in the github-users-web-client module.
+    The previous code stays here as an example:
 
-  /* menu */
-  var drawerElement = document.querySelector(".mdc-temporary-drawer");
-  var drawer = new mdc.drawer.MDCTemporaryDrawer(drawerElement);
-  document.querySelector(".menu")
-      .addEventListener("click", () => drawer.open = true);
-
-  /* it will center the grid and make it react to window resizing */
-  mdc.gridList.MDCGridList.attachTo(
-    document.querySelector(".mdc-grid-list")
-  );
+    var drawerElement = document.querySelector(".mdc-temporary-drawer");
+    var drawer = new mdc.drawer.MDCTemporaryDrawer(drawerElement);
+    document.querySelector(".menu")
+        .addEventListener("click", () => drawer.open = true);
+  */
 }
 
 goog.exportSymbol("com.xemantic.githubusers.web.GitHubUsersJsApp.start", start);

@@ -77,15 +77,15 @@
                 <configuration>
                   <executable>java</executable>
                   <classpathScope>runtime</classpathScope>
-                  <workingDirectory>../github-users-web-server/src/main</workingDirectory>
+                  <workingDirectory>../github-users-web-client/src/main/java</workingDirectory>
                   <arguments>
                     <argument>-classpath</argument>
                     <classpath />
                     <argument>com.google.template.soy.SoyToIncrementalDomSrcCompiler</argument>
                     <argument>--srcs</argument>
-                    <argument>soy/templates.soy</argument>
+                    <argument>com/xemantic/githubusers/web/view/templates.soy</argument>
                     <argument>--outputPathFormat</argument>
-                    <argument>webapp/js/generated/templates.js</argument>
+                    <argument>../../../../github-users-web-server/src/main/webapp/js/generated/templates.js</argument>
                   </arguments>
                 </configuration>
               </execution>

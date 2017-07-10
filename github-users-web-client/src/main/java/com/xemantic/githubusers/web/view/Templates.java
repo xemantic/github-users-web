@@ -22,32 +22,41 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.view.UserQueryView;
-import elemental2.dom.HTMLInputElement;
-import rx.Observable;
-
-import javax.inject.Inject;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 
 /**
- * Web version of the {@link UserQueryView}.
+ * All the templates of this app. Every template added in the {@code templates.soy}
+ * file should be also added here. This file can be auto-generated.
  *
  * @author morisil
  */
-public class WebUserQueryView implements UserQueryView {
+@JsType(namespace = "com.xemantic.githubusers.web.view", name = "template")
+public class Templates {
 
-  private final Observable<String> query$;
+  @JsMethod
+  public static native void header();
 
-  @Inject
-  public WebUserQueryView(WebScreen webScreen) {
-    HTMLInputElement input = webScreen.getUserQueryInputElement();
-    query$ = RxElemental2.fromEvent(input, RxElemental2.input)
-        .map(event -> input.value);
-  }
+  @JsMethod
+  public static native void drawer();
 
-  @Override
-  public Observable<String> observeQueryInput() {
-    return query$;
+  @JsMethod
+  public static native void main();
+
+  @JsMethod
+  public static native void snackbar();
+
+  @JsMethod
+  public static native void userList();
+
+  @JsMethod
+  public static native void user(UserParams data);
+
+  @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+  public static class UserParams {
+    public String avatarUrl;
+    public String login;
   }
 
 }

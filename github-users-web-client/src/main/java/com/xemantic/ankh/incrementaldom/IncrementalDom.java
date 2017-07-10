@@ -22,6 +22,7 @@
 
 package com.xemantic.ankh.incrementaldom;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsMethod;
@@ -36,6 +37,13 @@ import jsinterop.annotations.JsMethod;
 public final class IncrementalDom {
 
   private IncrementalDom() { /* util class, non-instantiable */ }
+
+  @SuppressWarnings("unchecked")
+  public static <E extends Element> E create(Patcher patcher) {
+    Element parent = DomGlobal.document.createElement("div");
+    patch(parent, patcher);
+    return (E) parent.firstChild;
+  }
 
   @JsMethod
   public static native void patch(Element element, Patcher patcher);

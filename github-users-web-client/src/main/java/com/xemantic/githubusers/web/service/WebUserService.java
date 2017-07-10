@@ -42,9 +42,15 @@ public class WebUserService implements UserService {
 
   private final ResourceVisitor.Supplier path;
 
+  private final GitHubApiErrorHandler errorHandler;
+
   @Inject
-  public WebUserService(ResourceVisitor.Supplier path) {
+  public WebUserService(
+      ResourceVisitor.Supplier path,
+      GitHubApiErrorHandler errorHandler) {
+
     this.path = path;
+    this.errorHandler = errorHandler;
   }
 
   @SuppressWarnings("unchecked")
@@ -57,6 +63,7 @@ public class WebUserService implements UserService {
         .param("page", page)
         .param("per_page", perPage)
         .<Single<JsonSearchResult>>as(Single.class, JsonSearchResult.class)
+        .doOnError(errorHandler::handleError)
         .map(WebSearchResult::new);
   }
 

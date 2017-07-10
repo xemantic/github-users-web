@@ -20,25 +20,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-  This module is exporting generated incrementaldom templates module making
-  it accessible to other JS libraries and the code compiled by GWT in particular.
+package com.xemantic.githubusers.web.view;
 
-  After adding new template in the templates.soy file, the template name should be
-  exported at the end of this file. This process might be also automated in the
-  future.
+import elemental2.dom.Element;
 
-  Note: this module might be not needed at all if there is a way to depend on
-  goog.module from the GWT code without globally exported symbols. Some more research
-  is needed here.
+/**
+ * The {@code WebView} marks view classes which are associated with
+ * own root {@link Element}.
+ *
+ * @author morisil
  */
-goog.module("com.xemantic.githubusers.web.template");
-goog.require("com.xemantic.githubusers.web.template.incrementaldom");
+public interface WebView {
 
-function getModule() {
-  return goog.module.get("com.xemantic.githubusers.web.template.incrementaldom");
+  Element asElement();
+
 }
-
-var mod = getModule();
-
-goog.exportSymbol("com.xemantic.githubusers.web.template.userTile", mod.userTile);

@@ -1,0 +1,120 @@
+/*
+ * github-users-web - lists GitHub users. Minimal app demonstrating
+ * cross-platform app development (Web, Android, iOS) where core
+ * logic is shared and transpiled from Java to JavaScript and
+ * Objective-C. This project delivers Web version.
+ *
+ * Copyright (C) 2017  Kazimierz Pogoda
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+  Note: every time you are modyfing this file these templates should be recompiled.
+  it is enough to run mvn compile for the github-users-web-compiler-templates module.
+
+  I you are adding/removing a template, these changes should be also reflected in the:
+   - template.js - module exports
+   - Templates.java - jsinterop for GWT
+   - externs_templates.js (if template has parameters)
+*/
+{namespace com.xemantic.githubusers.web.view.template}
+
+{template .header}
+  <header class="mdc-toolbar mdc-toolbar--fixed">
+    <div class="mdc-toolbar__row">
+      <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+        <a class="drawer-handle mdc-ripple-surface material-icons mdc-toolbar__icon--menu menu">menu</a>
+      </section>
+      <section>
+        <i class="search-icon material-icons">search</i>
+        <input class="user-query-input"
+               type="text"
+               placeholder="Search GitHub users"
+               aria-label="Search GitHub users">
+      </section>
+    </div>
+  </header>
+{/template}
+
+{template .user}
+  {@param login: any}
+  {@param avatarUrl: any}
+  <li class="mdc-grid-tile">
+    <div class="mdc-grid-tile__primary">
+      <img class="mdc-grid-tile__primary-content" src="{$avatarUrl}"/>
+    </div>
+    <div class="mdc-grid-tile__secondary">
+      <i class="mdc-grid-tile__icon material-icons">star_border</i>
+      <div class="mdc-grid-tile__title">{$login}</div>
+    </div>
+  </li>
+{/template}
+
+{template .userList}
+  <div class="user-list">
+    <div class="mdc-grid-list mdc-grid-list--with-icon-align-end">
+      <ul class="user-tiles mdc-grid-list__tiles"></ul>
+    </div>
+    <div class="user-list-actions">
+      <button class="load-more-action mdc-button mdc-button--raised mdc-button--primary" disabled>Load More</button>
+    </div>
+  </div>
+{/template}
+
+{template .drawer}
+  <aside class="mdc-temporary-drawer">
+    <nav class="mdc-temporary-drawer__drawer">
+      <header class="mdc-temporary-drawer__header">
+        <div class="mdc-temporary-drawer__header-content mdc-theme--primary-bg mdc-theme--text-primary-on-primary">
+          GitHub Users (web version)
+        </div>
+      </header>
+      <nav class="mdc-temporary-drawer__content mdc-list-group">
+        <div class="mdc-list">
+          <a class="read-about-action mdc-list-item">
+            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">help</i>About
+          </a>
+          <a class="open-project-on-github-action mdc-list-item">
+            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">edit</i>Project on GitHub
+          </a>
+        </div>
+        <hr class="mdc-list-divider"></hr>
+        <div class="mdc-list">
+          <a class="select-language-action mdc-list-item">
+            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">language</i>Language
+          </a>
+        </div>
+      </nav>
+    </nav>
+  </aside>
+{/template}
+
+{template .main}
+  <main class="mdc-toolbar-fixed-adjust">
+    <section class="user-list-container"></section>
+  </main>
+{/template}
+
+{template .snackbar}
+  <div class="mdc-snackbar"
+       aria-live="assertive"
+       aria-atomic="true"
+       aria-hidden="true">
+    <div class="mdc-snackbar__text"></div>
+    <div class="mdc-snackbar__action-wrapper">
+      <button type="button" class="mdc-button mdc-snackbar__action-button"></button>
+    </div>
+  </div>
+{/template}

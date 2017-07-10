@@ -27,6 +27,8 @@
 
   <source path="web" />
 
+  <inherits name="mdc.Mdc" />
+
   <inherits name="com.xemantic.ankh.Ankh" />
 
   <inherits name="com.xemantic.githubusers.GitHubUsers" />
