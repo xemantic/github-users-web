@@ -20,21 +20,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.template;
+package mdc.snackbar;
 
+import elemental2.dom.Element;
+import jsinterop.annotations.JsConstructor;
 import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * All the templates of this app. Every template added in the {@code templates.soy}
- * file should be also added here. This file can be auto-generated.
+ * Java representation of the {@code MDCSnackbar}.
+ * See <a href="https://material.io/components/web/catalog/snackbars/">Material
+ * Components for the Web: Snackbars</a>.
  *
  * @author morisil
  */
-@JsType(namespace = "com.xemantic.githubusers.web", name = "template")
-public class Templates {
+@JsType(isNative = true)
+public class MDCSnackbar {
+
+  @JsConstructor
+  public MDCSnackbar(Element element) {}
 
   @JsMethod
-  public static native void userTile(UserTileParams data);
+  public native void show(Data data);
+
+  @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
+  public static class Data {
+    public String message;
+  }
 
 }

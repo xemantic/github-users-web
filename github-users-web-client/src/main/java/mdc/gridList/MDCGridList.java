@@ -20,32 +20,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh.mdc;
+package mdc.gridList;
 
 import elemental2.dom.Element;
-import jsinterop.annotations.JsConstructor;
 import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 /**
- * Java representation of the {@code MDCSnackbar}. The {@code MDCSnackbar} is provided by the
- * <a href="https://material.io/components/web/">Material Components for the Web</a>.
+ * Java representation of the {@code MDCGridList}.
+ * See <a href="https://material.io/components/web/catalog/grid-lists/">Material
+ * Components for the Web: GridLists</a>.
  *
  * @author morisil
  */
-@JsType(isNative = true, namespace = "mdc.snackbar")
-public class MDCSnackbar {
-
-  @JsConstructor
-  public MDCSnackbar(Element element) {}
+@JsType(isNative = true)
+public class MDCGridList {
 
   @JsMethod
-  public native void show(Data data);
-
-  @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-  public static class Data {
-    public String message;
-  }
+  public static native void attachTo(Element element);
 
 }
