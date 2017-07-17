@@ -32,7 +32,7 @@ environment.
 
 Open 2 terminals and invoke these commands:
 
-    $ mvn gwt:codeserver -pl *-client -am
+    $ mvn gwt:codeserver -pl *-client -am -Denv=dev
 
 And then:
 
@@ -43,10 +43,13 @@ Head your browser to:
 
 http://localhost:8080/index-dev.html
 
-The regular `index.html` will work as well after invoking `mvn install` on the whole
-project, but it will server the JS code which is already compiled and minified
-by the Closure Compiler making it a bit more cumbersome to debug, but closer to
-expected production environment.
+The regular `index.html` will work as well after invoking the whole toolchain
+(e.g. `mvn package`), but it will server the JS code which is already compiled
+and minified by the Closure Compiler, making it a bit more cumbersome to debug,
+but closer to expected production environment.
+
+If you are planing to extend this project or to borrow the toolchain and
+use it somewhere else, than check [conventions](CONVENTIONS.md) used in this project.
 
 # Project objectives
 

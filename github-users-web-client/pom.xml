@@ -106,14 +106,37 @@
         <configuration>
           <moduleName>com.xemantic.githubusers.GitHubUsersWeb</moduleName>
           <!--
-            the next 2 options will be needed in the future, when also
-            GWT-produced files will be processed by the Closure Compiler
+            Instead of minimizing and obfuscating we want the output
+            to be processed with the Closure Compiler
            -->
-          <!--<style>PRETTY</style>
-          <compilerArgs>-XclosureFormattedOutput</compilerArgs>-->
+          <style>PRETTY</style>
+          <compilerArgs>-generateJsInteropExports,-optimize,9,-XnoclassMetadata</compilerArgs>
         </configuration>
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>env-dev</id>
+      <activation>
+        <property>
+          <name>env</name>
+          <value>dev</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>net.ltgt.gwt.maven</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+            <configuration>
+              <moduleName>com.xemantic.githubusers.GitHubUsersWebDev</moduleName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

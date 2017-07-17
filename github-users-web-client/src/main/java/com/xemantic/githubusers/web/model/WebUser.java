@@ -33,25 +33,25 @@ import com.xemantic.githubusers.web.service.json.JsonUser;
  */
 public class WebUser implements User {
 
-  private final JsonUser payload;
+  private final JsonUser _payload;
 
   public WebUser(JsonUser payload) {
-    this.payload = payload;
+    _payload = payload;
   }
 
   @Override
   public String getLogin() {
-    return payload.login;
+    return _payload.login;
   }
 
   @Override
   public String getAvatarUrl() {
-    return payload.avatar_url;
+    return _payload.avatar_url;
   }
 
   @Override
   public String getHtmlUrl() {
-    return payload.html_url;
+    return _payload.html_url;
   }
 
 }

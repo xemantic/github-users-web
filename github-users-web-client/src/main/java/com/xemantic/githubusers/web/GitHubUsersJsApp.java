@@ -26,7 +26,9 @@ import jsinterop.annotations.JsMethod;
 
 /**
  * Util class providing access to the {@code com.xemantic.githubusers.app}
- * JS module. See the {@code github-users-web-server} module for details.
+ * JS module. See the {@code github-users-web-server} module and
+ * the {@code src/main/webapp/js/modules/com/xemantic/githubusers/web/app.js}
+ * file for details.
  *
  * @author morisil
  */
@@ -34,7 +36,7 @@ public final class GitHubUsersJsApp {
 
   private GitHubUsersJsApp() { /* util class, non-instantiable */ }
 
-  @JsMethod
+  @JsMethod(namespace = "com.xemantic.githubusers.web.app", name = "start")
   public static native void start();
 
 }

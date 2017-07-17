@@ -27,8 +27,15 @@
  */
 
 goog.module("com.xemantic.githubusers.web.app");
+goog.module.declareLegacyNamespace();
 
-// List of modules not necessarily needed by this app module, but required by other parts of GWT code
+/*
+  List of modules not necessarily needed by this module, but required by other
+  parts of GWT code.
+
+  This module is used as an entry point in the index-dev.html and when
+  referenced it will cause all the dependant modules to be loaded as well.
+ */
 goog.require("com.xemantic.ankh.incrementaldom");
 goog.require("com.xemantic.githubusers.web.view.template");
 
@@ -45,6 +52,9 @@ function start() {
     document.querySelector(".menu")
         .addEventListener("click", () => drawer.open = true);
   */
+
 }
 
-goog.exportSymbol("com.xemantic.githubusers.web.GitHubUsersJsApp.start", start);
+exports.start = start;
+
+goog.exportSymbol("com.xemantic.githubusers.web.app.start", start);

@@ -21,24 +21,21 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN"
-    "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
-<module rename-to="GitHubUsers">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <source path="web" />
+  <modelVersion>4.0.0</modelVersion>
 
-  <inherits name="mdc.Mdc" />
+  <parent>
+    <artifactId>github-users-web</artifactId>
+    <groupId>com.xemantic.githubusers</groupId>
+    <version>1.0.0.0-SNAPSHOT</version>
+  </parent>
 
-  <inherits name="com.xemantic.ankh.Ankh" />
+  <artifactId>github-users-web-tools</artifactId>
+  <description>
+    Internal tools used by other modules.
+  </description>
 
-  <inherits name="com.xemantic.githubusers.GitHubUsers" />
-
-  <inherits name="com.intendia.gwt.autorest.AutoRest" />
-
-  <entry-point class="com.xemantic.githubusers.web.GitHubUsersEntryPoint" />
-
-  <collapse-all-properties />
-
-  <add-linker name="sso" />
-
-</module>
+</project>

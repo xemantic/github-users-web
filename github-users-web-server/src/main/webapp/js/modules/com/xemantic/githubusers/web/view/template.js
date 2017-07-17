@@ -34,18 +34,20 @@
  */
 
 goog.module("com.xemantic.githubusers.web.view.template");
-goog.require("com.xemantic.githubusers.web.view.template.incrementaldom");
+goog.module.declareLegacyNamespace();
 
-function getModule() {
-  return goog.module.get("com.xemantic.githubusers.web.view.template.incrementaldom");
-}
+const _mod = goog.require("com.xemantic.githubusers.web.view.template.incrementaldom");
 
-var mod = getModule();
+exports.header = _mod.header;
+exports.main = _mod.main;
+exports.drawer = _mod.drawer;
+exports.snackbar = _mod.snackbar;
+exports.userList = _mod.userList;
+exports.user = _mod.user;
 
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.header", mod.header);
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.main", mod.main);
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.drawer", mod.drawer);
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.snackbar", mod.snackbar);
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.userList", mod.userList);
-goog.exportSymbol("com.xemantic.githubusers.web.view.template.user", mod.user);
-
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.header", _mod.header);
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.main", _mod.main);
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.drawer", _mod.drawer);
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.snackbar", _mod.snackbar);
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.userList", _mod.userList);
+goog.exportSymbol("com.xemantic.githubusers.web.view.template.user", _mod.user);

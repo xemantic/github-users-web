@@ -25,20 +25,12 @@
     "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
 <module rename-to="GitHubUsers">
 
-  <source path="web" />
+  <inherits name="com.xemantic.githubusers.GitHubUsersWeb" />
 
-  <inherits name="mdc.Mdc" />
-
-  <inherits name="com.xemantic.ankh.Ankh" />
-
-  <inherits name="com.xemantic.githubusers.GitHubUsers" />
-
-  <inherits name="com.intendia.gwt.autorest.AutoRest" />
-
-  <entry-point class="com.xemantic.githubusers.web.GitHubUsersEntryPoint" />
-
-  <collapse-all-properties />
-
-  <add-linker name="sso" />
+  <!--
+    This module is used only during development as we cannot use SSO linker with
+    the SuperDev mode.
+  -->
+  <add-linker name="xsiframe" />
 
 </module>
