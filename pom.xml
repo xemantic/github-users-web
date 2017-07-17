@@ -58,6 +58,7 @@
   </properties>
 
   <modules>
+    <module>github-users-web-tools</module>
     <module>github-users-web-client</module>
     <module>github-users-web-install-js</module>
     <module>github-users-web-compiler-templates</module>
@@ -69,6 +70,11 @@
   <dependencyManagement>
     <dependencies>
       <!-- project modules -->
+      <dependency>
+        <groupId>com.xemantic.githubusers</groupId>
+        <artifactId>github-users-web-tools</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.xemantic.githubusers</groupId>
         <artifactId>github-users-web-client</artifactId>

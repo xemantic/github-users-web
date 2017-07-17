@@ -38,26 +38,26 @@ import java.util.List;
  */
 public class WebSearchResult implements SearchResult {
 
-  private final JsonSearchResult payload;
+  private final JsonSearchResult _payload;
 
   public WebSearchResult(JsonSearchResult payload) {
-    this.payload = payload;
+    _payload = payload;
   }
 
   @Override
   public int getTotalCount() {
-    return payload.total_count;
+    return _payload.total_count;
   }
 
   @Override
   public boolean isIncompleteResult() {
-    return payload.incomplete_result;
+    return _payload.incomplete_result;
   }
 
   @Override
   public List<User> getItems() {
-    List<User> list = new ArrayList<>();
-    for (JsonUser user : payload.items) {
+    List<User> list = new ArrayList<>(_payload.items.length);
+    for (JsonUser user : _payload.items) {
       list.add(new WebUser(user));
     }
     return list;

@@ -32,7 +32,7 @@ import jsinterop.annotations.JsType;
  *
  * @author morisil
  */
-@JsType(namespace = "com.xemantic.githubusers.web.view", name = "template")
+@JsType(name = "template", isNative = true)
 public class Templates {
 
   @JsMethod

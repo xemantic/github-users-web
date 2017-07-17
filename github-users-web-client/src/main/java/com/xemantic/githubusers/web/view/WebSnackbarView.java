@@ -22,7 +22,7 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.xemantic.ankh.incrementaldom.IncrementalDom;
+import com.xemantic.ankh.IncrementalDom;
 import com.xemantic.githubusers.logic.view.SnackbarView;
 import elemental2.dom.Element;
 import mdc.snackbar.MDCSnackbar;

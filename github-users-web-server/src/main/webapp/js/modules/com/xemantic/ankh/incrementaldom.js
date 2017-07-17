@@ -26,13 +26,12 @@
  */
 
 goog.module("com.xemantic.ankh.incrementaldom");
-goog.require("incrementaldom")
+goog.module.declareLegacyNamespace();
 
-function getModule() {
-  return goog.module.get("incrementaldom");
-}
+const _mod = goog.require("incrementaldom");
 
-var mod = getModule();
+exports.patch = _mod.patch;
+exports.patchOuter = _mod.patchOuter;
 
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.IncrementalDom.patch", mod.patch);
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.IncrementalDom.patchOuter", mod.patchOuter);
+goog.exportSymbol("com.xemantic.ankh.incrementaldom.patch", _mod.patch);
+goog.exportSymbol("com.xemantic.ankh.incrementaldom.patchOuter", _mod.patchOuter);
