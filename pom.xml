@@ -79,6 +79,7 @@
         <groupId>com.xemantic.githubusers</groupId>
         <artifactId>github-users-web-client</artifactId>
         <version>${project.version}</version>
+        <type>war</type>
         <exclusions>
           <!--
            We need gwt-dev excluded here to avoid catch 22 situation:

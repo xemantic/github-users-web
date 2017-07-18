@@ -87,8 +87,9 @@ possible to extract web resources from the WAR archive and serve them statically
 
 ## toolchain modules
 
-This project contains 3 special technical modules:
+This project contains special technical modules:
 
+* `github-users-web-install-tools`
 * `github-users-web-install-js`
 * `github-users-web-compiler-templates`
 * `github-users-web-compiler-js`
@@ -97,3 +98,16 @@ They should be a part of `github-users-web-server` build definition, but are sep
 workaround to inflexibility of the `maven-exec-plugin` which does not allow separate classpaths
 for each forked java process, unless it is separate maven module. These tools should be
 also executed in specified order which is achieved thanks to explicit dependency chain.
+
+## github-users-web-appengine
+
+The `appengine` module will take care of deploying this project in the Google App Engine.
+
+It is separated from the `github-users-web-server` module to allow stripping down the
+WAR file from all excessive JS sources. In the future only files listed in the
+`compiled.js.map` should be retained.
+
+# Deployment
+
+    $ mvn clean install
+    $ mvn -pl github-users-web-appengine appengine:deploy

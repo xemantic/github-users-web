@@ -37,11 +37,6 @@
   <packaging>war</packaging>
 
   <dependencies>
-    <!-- will merge compiled client JS into this war -->
-    <dependency>
-      <groupId>com.xemantic.githubusers</groupId>
-      <artifactId>github-users-web-client</artifactId>
-    </dependency>
 
     <!-- this dependency is marked here just to establish execution order -->
     <dependency>
@@ -69,12 +64,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <packagingExcludes>
-            WEB-INF/lib/*,
+          <!-- we want to strip down war a bit from uncompiled JS files -->
+          <warSourceExcludes>
             node_modules/google-closure-*/**,
             node_modules/@material/**,
             node_modules/incremental-dom/**,
-          </packagingExcludes>
+          </warSourceExcludes>
+          <packagingExcludes>WEB-INF/lib/*</packagingExcludes>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
     </plugins>
@@ -89,9 +86,8 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>${project.groupId}</groupId>
+          <groupId>com.xemantic.githubusers</groupId>
           <artifactId>github-users-web-client</artifactId>
-          <version>${project.version}</version>
           <type>war</type>
           <scope>runtime</scope>
         </dependency>
