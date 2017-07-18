@@ -44,6 +44,7 @@
     <dependency>
       <groupId>com.xemantic.githubusers</groupId>
       <artifactId>github-users-web-client</artifactId>
+      <type>war</type>
       <scope>runtime</scope> <!-- non-transitive -->
     </dependency>
   </dependencies>
