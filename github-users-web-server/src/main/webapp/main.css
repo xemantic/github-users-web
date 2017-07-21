@@ -81,3 +81,11 @@ body {
 .user-list .user-list-actions .load-more-action {
   margin: auto;
 }
+
+/* FIXES */
+
+/* temporary drawers should cover header, should be fixed in 0.16.0 */
+
+.mdc-temporary-drawer {
+ z-index: 5;
+}
