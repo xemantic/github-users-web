@@ -22,8 +22,10 @@
 
 package com.xemantic.ankh;
 
+import elemental2.dom.DocumentFragment;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
+import elemental2.dom.Node;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsMethod;
 
@@ -40,16 +42,16 @@ public final class IncrementalDom {
 
   @SuppressWarnings("unchecked")
   public static <E extends Element> E create(Patcher patcher) {
-    Element parent = DomGlobal.document.createElement("div");
-    patch(parent, patcher);
-    return (E) parent.firstChild;
+    DocumentFragment fragment = DomGlobal.document.createDocumentFragment();
+    patch(fragment, patcher);
+    return (E) fragment.firstChild;
   }
 
   @JsMethod(namespace = "com.xemantic.ankh.incrementaldom", name = "patch")
-  public static native void patch(Element element, Patcher patcher);
+  public static native void patch(Node element, Patcher patcher);
 
   @JsMethod(namespace = "com.xemantic.ankh.incrementaldom", name = "patchOuter")
-  public static native void patchOuter(Element element, Patcher patcher);
+  public static native void patchOuter(Node element, Patcher patcher);
 
   @JsFunction
   @FunctionalInterface
