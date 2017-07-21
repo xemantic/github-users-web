@@ -35,12 +35,13 @@
   <header class="mdc-toolbar mdc-toolbar--fixed">
     <div class="mdc-toolbar__row">
       <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-        <a class="drawer-handle mdc-ripple-surface material-icons mdc-toolbar__icon--menu menu">menu</a>
+        <a class="drawer-handle mdc-ripple-surface mdc-ripple-surface--primary material-icons mdc-toolbar__icon--menu menu"
+           href="#"
+           data-mdc-ripple-is-unbounded>menu</a>
       </section>
       <section>
         <i class="search-icon material-icons">search</i>
         <input class="user-query-input"
-               type="text"
                placeholder="Search GitHub users"
                aria-label="Search GitHub users">
       </section>
@@ -83,16 +84,16 @@
       </header>
       <nav class="mdc-temporary-drawer__content mdc-list-group">
         <div class="mdc-list">
-          <a class="read-about-action mdc-list-item">
+          <a class="read-about-action mdc-list-item" href="#">
             <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">help</i>About
           </a>
-          <a class="open-project-on-github-action mdc-list-item">
+          <a class="open-project-on-github-action mdc-list-item" href="#">
             <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">edit</i>Project on GitHub
           </a>
         </div>
         <hr class="mdc-list-divider"></hr>
         <div class="mdc-list">
-          <a class="select-language-action mdc-list-item">
+          <a class="select-language-action mdc-list-item" href="#">
             <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">language</i>Language
           </a>
         </div>

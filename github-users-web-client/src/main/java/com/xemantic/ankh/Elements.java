@@ -25,6 +25,7 @@ package com.xemantic.ankh;
 import com.intendia.rxgwt.elemental2.RxElemental2;
 import com.xemantic.githubusers.logic.eventbus.Trigger;
 import elemental2.dom.Element;
+import elemental2.dom.Event;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
 import mdc.ripple.MDCRipple;
@@ -47,7 +48,10 @@ public class Elements {
 
   public static Observable<Trigger> observeClicksOf(Element element) {
     Objects.requireNonNull(element);
-    return RxElemental2.fromEvent(element, RxElemental2.click).map(e -> Trigger.INSTANCE);
+    MDCRipple.attachTo(element);
+    return RxElemental2.fromEvent(element, RxElemental2.click)
+        .doOnNext(Event::preventDefault)
+        .map(e -> Trigger.INSTANCE);
   }
 
   public static void removeChildren(Element element) {
@@ -62,14 +66,12 @@ public class Elements {
   }
 
   public HTMLButtonElement getButton(String selector) {
-    HTMLButtonElement button = (HTMLButtonElement) element.querySelector(selector);
-    MDCRipple.attachTo(button);
-    return button;
+    return (HTMLButtonElement) get(selector);
   }
 
   public Observable<Trigger> observeClicksOf(String selector) {
-    Element child = element.querySelector(selector);
-    return RxElemental2.fromEvent(child, RxElemental2.click).map(e -> Trigger.INSTANCE);
+    Element child = get(selector);
+    return observeClicksOf(child);
   }
 
 }
