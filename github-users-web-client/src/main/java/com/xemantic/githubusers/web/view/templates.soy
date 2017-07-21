@@ -37,6 +37,8 @@
       <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
         <a class="drawer-handle mdc-ripple-surface mdc-ripple-surface--primary material-icons mdc-toolbar__icon--menu menu"
            href="#"
+           aria-label="Click to show the navigation menu"
+           aria-controls="drawer"
            data-mdc-ripple-is-unbounded>menu</a>
       </section>
       <section>
@@ -75,7 +77,7 @@
 {/template}
 
 {template .drawer}
-  <aside class="mdc-temporary-drawer">
+  <aside class="drawer mdc-temporary-drawer">
     <nav class="mdc-temporary-drawer__drawer">
       <header class="mdc-temporary-drawer__header">
         <div class="mdc-temporary-drawer__header-content mdc-theme--primary-bg mdc-theme--text-primary-on-primary">
