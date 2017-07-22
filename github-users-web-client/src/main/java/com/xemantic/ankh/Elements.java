@@ -23,7 +23,7 @@
 package com.xemantic.ankh;
 
 import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.eventbus.Trigger;
+import com.xemantic.githubusers.logic.event.Trigger;
 import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLButtonElement;

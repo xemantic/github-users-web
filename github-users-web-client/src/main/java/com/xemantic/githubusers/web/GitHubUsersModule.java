@@ -26,8 +26,9 @@ import com.intendia.gwt.autorest.client.RequestResourceBuilder;
 import com.intendia.gwt.autorest.client.ResourceVisitor;
 import com.xemantic.githubusers.logic.driver.UrlOpener;
 import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
-import com.xemantic.githubusers.logic.eventbus.DefaultEventBus;
-import com.xemantic.githubusers.logic.eventbus.EventBus;
+import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
+import com.xemantic.githubusers.logic.event.UserQueryEvent;
+import com.xemantic.githubusers.logic.event.UserSelectedEvent;
 import com.xemantic.githubusers.logic.service.UserService;
 import com.xemantic.githubusers.logic.view.*;
 import com.xemantic.githubusers.web.driver.WebUrlOpener;
@@ -38,8 +39,12 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
+import java.util.function.Consumer;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import rx.Observable;
+import rx.Observer;
+import rx.subjects.PublishSubject;
 
 /**
  * Dagger module defining component binding for the whole app.
@@ -71,11 +76,20 @@ public abstract class GitHubUsersModule {
     return "https://github.com/xemantic/github-users-web";
   }
 
-  @Provides
-  @Singleton
-  static EventBus getEventBus() {
-    return new DefaultEventBus();
-  }
+  // Snackbar message event bus
+  @Provides @Singleton static PublishSubject<SnackbarMessageEvent> snackbarMessageBus() { return PublishSubject.create(); }
+  @Provides static Consumer<SnackbarMessageEvent> snackbarMessageConsumer(PublishSubject<SnackbarMessageEvent> bus) { return bus::onNext; }
+  @Binds abstract Observable<SnackbarMessageEvent> snackbarMessageObservable(PublishSubject<SnackbarMessageEvent> bus);
+
+  // User query event bus
+  @Provides @Singleton static PublishSubject<UserQueryEvent> userQueryBus() { return PublishSubject.create(); }
+  @Provides static Consumer<UserQueryEvent> userQueryConsumer(PublishSubject<UserQueryEvent> bus) { return bus::onNext; }
+  @Binds abstract Observable<UserQueryEvent> userQueryObservable(PublishSubject<UserQueryEvent> bus);
+
+  // User selected event bus
+  @Provides @Singleton static PublishSubject<UserSelectedEvent> userSelectedBus() { return PublishSubject.create(); }
+  @Provides static Consumer<UserSelectedEvent> userSelectedConsumer(PublishSubject<UserSelectedEvent> bus) { return bus::onNext; }
+  @Binds abstract Observable<UserSelectedEvent> userSelectedObservable(PublishSubject<UserSelectedEvent> bus);
 
   @Binds
   abstract ErrorAnalyzer getErrorAnalyzer(DefaultErrorAnalyzer analyzer);
