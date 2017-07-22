@@ -24,7 +24,7 @@ package com.xemantic.githubusers.web.view;
 
 import com.xemantic.ankh.Elements;
 import com.xemantic.ankh.IncrementalDom;
-import com.xemantic.githubusers.logic.eventbus.Trigger;
+import com.xemantic.githubusers.logic.event.Trigger;
 import com.xemantic.githubusers.logic.view.UserListView;
 import com.xemantic.githubusers.logic.view.UserView;
 import elemental2.dom.Element;

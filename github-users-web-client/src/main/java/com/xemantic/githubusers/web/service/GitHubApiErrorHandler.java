@@ -24,10 +24,11 @@ package com.xemantic.githubusers.web.service;
 
 import com.intendia.gwt.autorest.client.RequestResourceBuilder.FailedStatusCodeException;
 import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
-import com.xemantic.githubusers.logic.eventbus.EventBus;
 
+import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import rx.Observer;
 
 /**
  * Error handler for GitHub APIs.
@@ -37,11 +38,11 @@ import javax.inject.Singleton;
 @Singleton
 public class GitHubApiErrorHandler {
 
-  private final EventBus eventBus;
+  private final Consumer<SnackbarMessageEvent> snackbarMessageConsumer;
 
   @Inject
-  public GitHubApiErrorHandler(EventBus eventBus) {
-    this.eventBus = eventBus;
+  public GitHubApiErrorHandler(Consumer<SnackbarMessageEvent> snackbarMessageConsumer) {
+    this.snackbarMessageConsumer = snackbarMessageConsumer;
   }
 
   public void handleError(Throwable throwable) {
@@ -56,7 +57,7 @@ public class GitHubApiErrorHandler {
   private boolean handleStatusCode(FailedStatusCodeException e) {
     String message = getMessage(e.getStatusCode());
     if (message != null) {
-      eventBus.post(new SnackbarMessageEvent(message));
+      snackbarMessageConsumer.accept(new SnackbarMessageEvent(message));
       return true;
     }
     return false;

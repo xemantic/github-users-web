@@ -24,10 +24,11 @@ package com.xemantic.githubusers.web.error;
 
 import com.google.gwt.core.client.GWT;
 import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
-import com.xemantic.githubusers.logic.eventbus.EventBus;
 
+import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import rx.Observer;
 
 /**
  * Handler of uncaught exceptions in this app. It will log the error using
@@ -39,11 +40,11 @@ import javax.inject.Singleton;
 @Singleton
 public class ExceptionHandler implements GWT.UncaughtExceptionHandler {
 
-  private final EventBus eventBus;
+  private final Consumer<SnackbarMessageEvent> snackbarMessageConsumer;
 
   @Inject
-  public ExceptionHandler(EventBus eventBus) {
-    this.eventBus = eventBus;
+  public ExceptionHandler(Consumer<SnackbarMessageEvent> snackbarMessageConsumer) {
+    this.snackbarMessageConsumer = snackbarMessageConsumer;
   }
 
   /** {@inheritDoc} */
@@ -54,7 +55,7 @@ public class ExceptionHandler implements GWT.UncaughtExceptionHandler {
 
   // use this method if you need to notify user about certain errors.
   private void postSnackbarMessage(String message) {
-    eventBus.post(new SnackbarMessageEvent(message));
+    snackbarMessageConsumer.accept(new SnackbarMessageEvent(message));
   }
 
 }
