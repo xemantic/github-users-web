@@ -43,7 +43,6 @@ import java.util.function.Consumer;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import rx.Observable;
-import rx.Observer;
 import rx.subjects.PublishSubject;
 
 /**

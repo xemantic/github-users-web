@@ -28,7 +28,6 @@ import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
 import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import rx.Observer;
 
 /**
  * Error handler for GitHub APIs.
