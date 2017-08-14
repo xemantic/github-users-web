@@ -70,6 +70,16 @@
       <artifactId>dagger-gwt</artifactId>
     </dependency>
 
+    <!-- guava -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava-gwt</artifactId>
+    </dependency>
+
     <!-- RxJava, AutoRest, RxGwt -->
     <dependency>
       <groupId>com.intendia.gwt.autorest</groupId>
@@ -82,6 +92,18 @@
     <dependency>
       <groupId>com.intendia.gwt.rxgwt</groupId>
       <artifactId>rxgwt</artifactId>
+    </dependency>
+
+    <!-- test dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -118,6 +140,23 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <version>${gwt.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!--
+          It seems that gwt-maven-plugin is switching off default surefire test pass.
+          I turned it on again, but it's hard to say what side consequences it might
+          have once we want to also have standard gwt tests here.
+         -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <phase>test</phase>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
