@@ -27,6 +27,17 @@
 
 body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
+  background: #e8e8e8;
+}
+
+/* preload images */
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("assets/person.png");
 }
 
 .mdc-toolbar a, .mdc-toolbar a:visited {
@@ -64,28 +75,77 @@ body {
   padding-top: 8px;
 }
 
-.user-list .user-tiles > li {
-  cursor: pointer;
+.user-list .mdc-layout-grid {
+  max-width: 1280px;
 }
 
-.user-list .user-tiles .mdc-grid-tile__secondary {
-  background: rgba(0, 0, 0, 0.3);
+.user-card {
+  background: white;
+}
+
+.user-card .mdc-card__media {
+  padding: 0;
+}
+
+.image-placeholder-1x1 img {
+  /*width: 460px;
+  height: auto;
+  display: block;*/
+  animation: material-design__image 3s;
+  animation-fill-mode: forward;
+}
+
+.user-card .mdc-card__primary h1 {
+  text-align: center;
 }
 
 .user-list .user-list-actions {
   padding-top: 20px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .user-list .user-list-actions .load-more-action {
   margin: auto;
 }
 
-/* FIXES */
+.image-placeholder-person {
+  background-image: url("assets/person.png");
+  background-size: 100% 100%;
+}
 
-/* temporary drawers should cover header, should be fixed in 0.16.0 */
+.image-progressive-fade-in {
+  animation: material-design__image 3s;
+  animation-fill-mode: forwards;
+}
 
-.mdc-temporary-drawer {
- z-index: 5;
+.image-wrapper-1x1 {
+  padding-bottom: 100%;
+}
+
+.image-wrapper-1x1 img {
+  background: white;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Approximation of Material Design specifications */
+@keyframes material-design__image {
+  0% {
+    opacity: 0;
+    filter: saturate(20%) brightness(125%);
+  }
+  66.7% {
+    opacity: 1;
+  }
+  83.3% {
+    filter: saturate(87%) brightness(100%);
+  }
+  100% {
+    filter: saturate(100%) brightness(100%);
+  }
 }

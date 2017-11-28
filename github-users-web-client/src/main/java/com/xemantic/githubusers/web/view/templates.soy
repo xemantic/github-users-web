@@ -51,27 +51,35 @@
   </header>
 {/template}
 
+{template .userList}
+  <div class="user-list">
+    <div class="mdc-layout-grid">
+      <div class="user-tiles mdc-layout-grid__inner">
+      </div>
+    </div>
+    <div class="user-list-actions">
+      <button class="load-more-action mdc-button mdc-button--raised mdc-button--primary"
+              aria-label="Click to load more users"
+              disabled>Load More</button>
+    </div>
+  </div>
+{/template}
+
 {template .user}
   {@param login: any}
   {@param avatarUrl: any}
-  <li class="mdc-grid-tile">
-    <div class="mdc-grid-tile__primary">
-      <img class="mdc-grid-tile__primary-content" src="{$avatarUrl}"/>
-    </div>
-    <div class="mdc-grid-tile__secondary">
-      <i class="mdc-grid-tile__icon material-icons">star_border</i>
-      <div class="mdc-grid-tile__title">{$login}</div>
-    </div>
-  </li>
-{/template}
-
-{template .userList}
-  <div class="user-list">
-    <div class="mdc-grid-list mdc-grid-list--with-icon-align-end">
-      <ul class="user-tiles mdc-grid-list__tiles"></ul>
-    </div>
-    <div class="user-list-actions">
-      <button class="load-more-action mdc-button mdc-button--raised mdc-button--primary" disabled>Load More</button>
+  <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-3-desktop">
+    <div class="user-card mdc-card mdc-ripple-surface mdc-elevation-transition">
+      <section class="mdc-card__media">
+        <div class="image-wrapper-1x1 image-placeholder-person">
+          {if $avatarUrl != null}
+            <img alt="{$login} avatar" src="{$avatarUrl}" class="image-progressive-fade-in" />
+          {/if}
+        </div>
+      </section>
+      <section class="mdc-card__primary">
+        <h1 class="mdc-card__title mdc-card__title--large">{$login}</h1>
+      </section>
     </div>
   </div>
 {/template}
