@@ -20,18 +20,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-  This module is exporting a selection of incremental-dom module API.
-  In the GWT code it is represented as IncrementalDom util class.
+package com.xemantic.ankh.web;
+
+import elemental2.dom.Image;
+import rx.Single;
+
+import java.util.Objects;
+
+/**
+ * Image utilities.
+ *
+ * @author morisil
  */
+public final class Images {
 
-goog.module("com.xemantic.ankh.incrementaldom");
-goog.module.declareLegacyNamespace();
+  private Images() { /* util class, non-instantiable */ }
 
-const _mod = goog.require("incrementaldom");
+  public static Single<Image> preload(String url) {
+    Objects.requireNonNull(url);
+    return Single.create(subscriber -> {
+      Image image = new Image();
+      image.src = url;
+      image.onload = p0 -> {
+        subscriber.onSuccess(image);
+        return null;
+      };
+      image.onerror = p0 -> {
+        subscriber.onError(new RuntimeException("Could not load image: " + url));
+        return null;
+      };
+    });
+  }
 
-exports.patch = _mod.patch;
-exports.patchOuter = _mod.patchOuter;
-
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.patch", _mod.patch);
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.patchOuter", _mod.patchOuter);
+}

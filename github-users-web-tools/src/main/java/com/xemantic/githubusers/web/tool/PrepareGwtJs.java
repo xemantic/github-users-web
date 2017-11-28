@@ -83,7 +83,7 @@ public class PrepareGwtJs {
     out.write(" */\n");
     out.write("goog.module('app');\n");
     out.write("goog.require('com.xemantic.githubusers.web.app');\n");
-    out.write("goog.require('com.xemantic.ankh.incrementaldom');\n\n");
+    out.write("goog.require('com.xemantic.ankh.web.incrementaldom');\n\n");
   }
 
   private boolean shouldSkip(String line) {

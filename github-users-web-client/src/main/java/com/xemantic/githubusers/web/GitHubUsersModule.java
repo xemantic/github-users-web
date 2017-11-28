@@ -31,7 +31,7 @@ import com.xemantic.githubusers.logic.event.UserQueryEvent;
 import com.xemantic.githubusers.logic.event.UserSelectedEvent;
 import com.xemantic.githubusers.logic.service.UserService;
 import com.xemantic.githubusers.logic.view.*;
-import com.xemantic.githubusers.web.driver.WebUrlOpener;
+import com.xemantic.ankh.web.driver.WebUrlOpener;
 import com.xemantic.githubusers.web.error.DefaultErrorAnalyzer;
 import com.xemantic.githubusers.web.view.*;
 import com.xemantic.githubusers.web.service.WebUserService;

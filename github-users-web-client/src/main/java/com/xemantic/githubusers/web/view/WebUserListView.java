@@ -22,15 +22,14 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.xemantic.ankh.Elements;
-import com.xemantic.ankh.IncrementalDom;
+import com.xemantic.ankh.web.Elements;
+import com.xemantic.ankh.web.IncrementalDom;
 import com.xemantic.githubusers.logic.event.Trigger;
 import com.xemantic.githubusers.logic.view.UserListView;
 import com.xemantic.githubusers.logic.view.UserView;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
-import mdc.gridList.MDCGridList;
 import rx.Observable;
 
 import javax.inject.Inject;
@@ -54,8 +53,6 @@ public class WebUserListView implements UserListView, WebView {
   public WebUserListView() {
     element = IncrementalDom.create(Templates::userList);
     Elements elements = new Elements(element);
-    /* it will center the grid and make it react to window resizing */
-    MDCGridList.attachTo(elements.get(".mdc-grid-list"));
     userTiles = elements.get(".user-tiles");
     loadMoreButton = elements.getButton(".load-more-action");
     loadMore$ = Elements.observeClicksOf(loadMoreButton);

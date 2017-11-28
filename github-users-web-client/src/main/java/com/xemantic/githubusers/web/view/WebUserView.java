@@ -21,12 +21,15 @@
  */
 package com.xemantic.githubusers.web.view;
 
-import com.xemantic.ankh.Elements;
+import com.xemantic.ankh.web.Elements;
+import com.xemantic.ankh.web.Images;
+import com.xemantic.ankh.web.mdc.MdcElevator;
 import com.xemantic.githubusers.logic.event.Trigger;
 import com.xemantic.githubusers.logic.model.User;
 import com.xemantic.githubusers.logic.view.UserView;
-import com.xemantic.ankh.IncrementalDom;
+import com.xemantic.ankh.web.IncrementalDom;
 import elemental2.dom.Element;
+import mdc.ripple.MDCRipple;
 import rx.Observable;
 
 /**
@@ -43,14 +46,21 @@ public class WebUserView implements UserView, WebView {
   public WebUserView() {
     element = IncrementalDom.create(() -> Templates.user(new Templates.UserParams()));
     userClicks$ = Elements.observeClicksOf(element);
+    Element userCard = element.querySelector(".user-card");
+    MDCRipple.attachTo(userCard);
+    MdcElevator.whenOver(userCard).liftTo(8);
   }
 
   @Override
   public void displayUser(User user) {
     Templates.UserParams params = new Templates.UserParams();
     params.login = user.getLogin();
-    params.avatarUrl = user.getAvatarUrl() + "&s=200"; // we can rescale server side here
-    IncrementalDom.patchOuter(element, () -> Templates.user(params));
+    patchUser(params);
+    Images.preload(user.getAvatarUrl())
+        .subscribe(image -> {
+          params.avatarUrl = image.src;
+          patchUser(params);
+        });
   }
 
   @Override
@@ -61,6 +71,10 @@ public class WebUserView implements UserView, WebView {
   @Override
   public Element asElement() {
     return element;
+  }
+
+  private void patchUser(Templates.UserParams params) {
+    IncrementalDom.patchOuter(element, () -> Templates.user(params));
   }
 
 }

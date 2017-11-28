@@ -20,44 +20,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.view;
+package com.xemantic.ankh.web;
 
-import com.xemantic.ankh.web.IncrementalDom;
-import com.xemantic.githubusers.logic.view.SnackbarView;
-import elemental2.dom.Element;
-import mdc.snackbar.MDCSnackbar;
+import elemental2.dom.Image;
+import org.hamcrest.CoreMatchers;
+import org.junit.Test;
+import rx.Single;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
- * Web version of the {@link SnackbarView}.
-
+ * Test of the {@link Images}.
+ *
  * @author morisil
  */
-@Singleton
-public class WebSnackbarView implements SnackbarView, WebView {
+public class ImagesTest {
 
-  private final Element element;
+  @Test(expected = NullPointerException.class)
+  public void preload_nullUrl_shouldThrowException() {
+    // when
+    Images.preload(null);
 
-  private MDCSnackbar snackbar;
-
-  @Inject
-  public WebSnackbarView() {
-    element = IncrementalDom.create(Templates::snackbar);
-    snackbar = new MDCSnackbar(element);
+    // then should fail
   }
 
-  @Override
-  public void show(String message) {
-    MDCSnackbar.Data data = new MDCSnackbar.Data();
-    data.message = message;
-    snackbar.show(data);
-  }
+  @Test
+  public void preload_properUrl_shouldReturnSingle() {
+    // given
+    String url = "http://foo.com/image.png";
 
-  @Override
-  public Element asElement() {
-    return element;
+    // when
+    Single<Image> single = Images.preload(url);
+
+    // then
+    assertThat(single, notNullValue());
   }
 
 }

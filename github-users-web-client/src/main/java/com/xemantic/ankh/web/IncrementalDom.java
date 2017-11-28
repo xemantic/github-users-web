@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh;
+package com.xemantic.ankh.web;
 
 import elemental2.dom.DocumentFragment;
 import elemental2.dom.DomGlobal;
@@ -47,10 +47,10 @@ public final class IncrementalDom {
     return (E) fragment.firstChild;
   }
 
-  @JsMethod(namespace = "com.xemantic.ankh.incrementaldom", name = "patch")
+  @JsMethod(namespace = "com.xemantic.ankh.web.incrementaldom", name = "patch")
   public static native void patch(Node element, Patcher patcher);
 
-  @JsMethod(namespace = "com.xemantic.ankh.incrementaldom", name = "patchOuter")
+  @JsMethod(namespace = "com.xemantic.ankh.web.incrementaldom", name = "patchOuter")
   public static native void patchOuter(Node element, Patcher patcher);
 
   @JsFunction

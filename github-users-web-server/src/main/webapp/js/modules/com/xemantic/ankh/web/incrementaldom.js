@@ -20,28 +20,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.driver;
-
-import com.xemantic.githubusers.logic.driver.UrlOpener;
-import elemental2.dom.DomGlobal;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-/**
- * Web version of the {@link UrlOpener}.
- *
- * @author morisil
+/*
+  This module is exporting a selection of incremental-dom module API.
+  In the GWT code it is represented as IncrementalDom util class.
  */
-@Singleton
-public class WebUrlOpener implements UrlOpener {
 
-  @Inject
-  public WebUrlOpener() { /* empty constructor annotated with @Inject is required by dagger */ }
+goog.module("com.xemantic.ankh.web.incrementaldom");
+goog.module.declareLegacyNamespace();
 
-  @Override
-  public void openUrl(String url) {
-    DomGlobal.window.open(url);
-  }
+const _mod = goog.require("incrementaldom");
 
-}
+exports.patch = _mod.patch;
+exports.patchOuter = _mod.patchOuter;
+
+goog.exportSymbol("com.xemantic.ankh.web.incrementaldom.patch", _mod.patch);
+goog.exportSymbol("com.xemantic.ankh.web.incrementaldom.patchOuter", _mod.patchOuter);

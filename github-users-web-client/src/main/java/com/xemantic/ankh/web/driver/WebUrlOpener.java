@@ -20,44 +20,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.view;
+package com.xemantic.ankh.web.driver;
 
-import com.xemantic.ankh.web.IncrementalDom;
-import com.xemantic.githubusers.logic.view.SnackbarView;
-import elemental2.dom.Element;
-import mdc.snackbar.MDCSnackbar;
+import com.xemantic.githubusers.logic.driver.UrlOpener;
+import elemental2.dom.DomGlobal;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Web version of the {@link SnackbarView}.
-
+ * Web version of the {@link UrlOpener}.
+ *
  * @author morisil
  */
 @Singleton
-public class WebSnackbarView implements SnackbarView, WebView {
-
-  private final Element element;
-
-  private MDCSnackbar snackbar;
+public class WebUrlOpener implements UrlOpener {
 
   @Inject
-  public WebSnackbarView() {
-    element = IncrementalDom.create(Templates::snackbar);
-    snackbar = new MDCSnackbar(element);
-  }
+  public WebUrlOpener() { /* empty constructor annotated with @Inject is required by dagger */ }
 
   @Override
-  public void show(String message) {
-    MDCSnackbar.Data data = new MDCSnackbar.Data();
-    data.message = message;
-    snackbar.show(data);
-  }
-
-  @Override
-  public Element asElement() {
-    return element;
+  public void openUrl(String url) {
+    DomGlobal.window.open(url);
   }
 
 }
