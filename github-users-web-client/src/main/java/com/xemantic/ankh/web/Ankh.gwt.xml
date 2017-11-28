@@ -27,6 +27,8 @@
 
   <source path="" />
 
+  <inherits name="com.google.gwt.regexp.RegExp" />
+  <inherits name="com.google.common.base.Base" />
   <inherits name="com.intendia.rxgwt.RxElemental2" />
 
 </module>

@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh;
+package com.xemantic.ankh.web;
 
 import com.intendia.rxgwt.elemental2.RxElemental2;
 import com.xemantic.githubusers.logic.event.Trigger;

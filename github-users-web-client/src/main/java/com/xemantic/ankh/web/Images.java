@@ -20,28 +20,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.driver;
+package com.xemantic.ankh.web;
 
-import com.xemantic.githubusers.logic.driver.UrlOpener;
-import elemental2.dom.DomGlobal;
+import elemental2.dom.Image;
+import rx.Single;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.Objects;
 
 /**
- * Web version of the {@link UrlOpener}.
+ * Image utilities.
  *
  * @author morisil
  */
-@Singleton
-public class WebUrlOpener implements UrlOpener {
+public final class Images {
 
-  @Inject
-  public WebUrlOpener() { /* empty constructor annotated with @Inject is required by dagger */ }
+  private Images() { /* util class, non-instantiable */ }
 
-  @Override
-  public void openUrl(String url) {
-    DomGlobal.window.open(url);
+  public static Single<Image> preload(String url) {
+    Objects.requireNonNull(url);
+    return Single.create(subscriber -> {
+      Image image = new Image();
+      image.src = url;
+      image.onload = p0 -> {
+        subscriber.onSuccess(image);
+        return null;
+      };
+      image.onerror = p0 -> {
+        subscriber.onError(new RuntimeException("Could not load image: " + url));
+        return null;
+      };
+    });
   }
 
 }
