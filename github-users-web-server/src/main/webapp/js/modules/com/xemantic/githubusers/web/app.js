@@ -36,7 +36,7 @@ goog.module.declareLegacyNamespace();
   This module is used as an entry point in the index-dev.html and when
   referenced it will cause all the dependant modules to be loaded as well.
  */
-goog.require("com.xemantic.ankh.incrementaldom");
+goog.require("com.xemantic.ankh.web.incrementaldom");
 goog.require("com.xemantic.githubusers.web.view.template");
 
 function start() {

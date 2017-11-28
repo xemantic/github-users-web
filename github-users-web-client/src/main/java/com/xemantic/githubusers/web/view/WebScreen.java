@@ -22,7 +22,7 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.xemantic.ankh.IncrementalDom;
+import com.xemantic.ankh.web.IncrementalDom;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLInputElement;

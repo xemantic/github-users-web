@@ -25,7 +25,7 @@
   In the GWT code it is represented as IncrementalDom util class.
  */
 
-goog.module("com.xemantic.ankh.incrementaldom");
+goog.module("com.xemantic.ankh.web.incrementaldom");
 goog.module.declareLegacyNamespace();
 
 const _mod = goog.require("incrementaldom");
@@ -33,5 +33,5 @@ const _mod = goog.require("incrementaldom");
 exports.patch = _mod.patch;
 exports.patchOuter = _mod.patchOuter;
 
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.patch", _mod.patch);
-goog.exportSymbol("com.xemantic.ankh.incrementaldom.patchOuter", _mod.patchOuter);
+goog.exportSymbol("com.xemantic.ankh.web.incrementaldom.patch", _mod.patch);
+goog.exportSymbol("com.xemantic.ankh.web.incrementaldom.patchOuter", _mod.patchOuter);

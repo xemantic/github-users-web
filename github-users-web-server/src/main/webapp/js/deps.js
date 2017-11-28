@@ -27,6 +27,6 @@
 goog.addDependency("../../../../js/lib/incemental-dom/incremental-dom-closure.js", ['incrementaldom'], [], true);
 goog.addDependency("../../../../js/lib/closure-templates/soyutils_idom.js", ['soy.idom'], ['goog.soy.data.SanitizedHtml', 'incrementaldom', 'goog.soy'], true);
 goog.addDependency("../../../../js/generated/templates.js", ['com.xemantic.githubusers.web.view.template.incrementaldom'], ['incrementaldom', 'soy.idom'], true);
-goog.addDependency("../../../../js/modules/com/xemantic/ankh/incrementaldom.js", ['com.xemantic.ankh.incrementaldom'], ['incrementaldom'], true);
+goog.addDependency("../../../../js/modules/com/xemantic/ankh/web/incrementaldom.js", ['com.xemantic.ankh.web.incrementaldom'], ['incrementaldom'], true);
 goog.addDependency("../../../../js/modules/com/xemantic/githubusers/web/view/template.js", ['com.xemantic.githubusers.web.view.template'], ['com.xemantic.githubusers.web.view.template.incrementaldom'], true);
-goog.addDependency("../../../../js/modules/com/xemantic/githubusers/web/app.js", ['com.xemantic.githubusers.web.app'], ['com.xemantic.githubusers.web.view.template', 'com.xemantic.ankh.incrementaldom'], true);
+goog.addDependency("../../../../js/modules/com/xemantic/githubusers/web/app.js", ['com.xemantic.githubusers.web.app'], ['com.xemantic.githubusers.web.view.template', 'com.xemantic.ankh.web.incrementaldom'], true);
