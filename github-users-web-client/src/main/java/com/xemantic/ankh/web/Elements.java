@@ -22,14 +22,15 @@
 
 package com.xemantic.ankh.web;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.event.Trigger;
+import com.intendia.rxgwt2.elemento.RxElemento;
+import com.xemantic.ankh.shared.event.Trigger;
 import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
+import io.reactivex.Observable;
 import mdc.ripple.MDCRipple;
-import rx.Observable;
+import org.jboss.gwt.elemento.core.EventType;
 
 import java.util.Objects;
 
@@ -49,7 +50,7 @@ public class Elements {
   public static Observable<Trigger> observeClicksOf(Element element) {
     Objects.requireNonNull(element);
     MDCRipple.attachTo(element);
-    return RxElemental2.fromEvent(element, RxElemental2.click)
+    return RxElemento.fromEvent(element, EventType.click)
         .doOnNext(Event::preventDefault)
         .map(e -> Trigger.INSTANCE);
   }

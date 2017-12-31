@@ -22,26 +22,37 @@
 
 package com.xemantic.githubusers.web.error;
 
-import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
+import com.xemantic.ankh.shared.error.ErrorMessageProvider;
+import com.xemantic.ankh.web.service.ApiException;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
- * The default error analyzer for this app. For the moment all the errors
- * are considered recoverable.
- *
  * @author morisil
  */
-@Singleton
-public class DefaultErrorAnalyzer implements ErrorAnalyzer {
+public class WebErrorMessageProvider implements ErrorMessageProvider {
 
   @Inject
-  public DefaultErrorAnalyzer() {}
+  public WebErrorMessageProvider() {}
 
   @Override
-  public boolean isRecoverable(Throwable throwable) {
-    return true; // for now always true
+  public Maybe<String> getMessage(Throwable throwable) {
+    if (throwable instanceof ApiException) {
+      return Maybe.just(getMessageForGitHubRequest(
+          ((ApiException) throwable).getStatusCode())
+      );
+    }
+    return Maybe.just(throwable.getMessage());
+  }
+
+  private String getMessageForGitHubRequest(int statusCode) {
+    String message = null;
+    switch (statusCode) {
+      case 403: message = "Only 10 request per minute allowed. Try again in a while"; break;
+      case 0: message = "You are offline"; break;
+    }
+    return message;
   }
 
 }

@@ -22,12 +22,13 @@
 
 package com.xemantic.githubusers.web.navigation;
 
-import com.xemantic.githubusers.logic.driver.UrlOpener;
+import com.xemantic.ankh.shared.driver.UrlOpener;
+import com.xemantic.ankh.shared.presenter.Presenter;
 import com.xemantic.githubusers.logic.event.UserSelectedEvent;
+import io.reactivex.Observable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import rx.Observable;
 
 /**
  * Will open user profile page if the user is selected.
@@ -35,23 +36,17 @@ import rx.Observable;
  * @author morisil
  */
 @Singleton
-public class UserSelectionNavigator {
-
-  private final Observable<UserSelectedEvent> userSelected$;
-
-  private final UrlOpener urlOpener;
+public class UserSelectionNavigator extends Presenter {
 
   @Inject
   public UserSelectionNavigator(
       Observable<UserSelectedEvent> userSelected$,
       UrlOpener urlOpener) {
 
-    this.userSelected$ = userSelected$;
-    this.urlOpener = urlOpener;
-  }
-
-  public void start() {
-    userSelected$.subscribe(event -> urlOpener.openUrl(event.getUser().getHtmlUrl()));
+    super(userSelected$
+        .map(event -> event.getUser().getHtmlUrl())
+        .doOnNext(urlOpener::openUrl)
+    );
   }
 
 }

@@ -25,10 +25,8 @@
     "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
 <module>
 
-  <source path="" />
-
-  <inherits name="com.google.gwt.regexp.RegExp" />
-  <inherits name="com.google.common.base.Base" />
-  <inherits name="com.intendia.rxgwt.RxElemental2" />
+  <source path="factory">
+    <exclude name="processor/**" />
+  </source>
 
 </module>

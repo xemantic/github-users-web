@@ -36,3 +36,7 @@ to also define them in platform independent way, possibly as use cases being
 a part of `github-users` common logic, and then provide adapter here using
 `WebDriver` and CSS selectors. Tools like `Cucumber` might come handy for such a
 purpose.
+
+# npm dependencies
+
+Add proper `package.json`

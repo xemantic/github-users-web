@@ -21,16 +21,18 @@
  */
 package com.xemantic.githubusers.web.view;
 
+import com.xemantic.ankh.shared.event.Trigger;
 import com.xemantic.ankh.web.Elements;
 import com.xemantic.ankh.web.Images;
 import com.xemantic.ankh.web.mdc.MdcElevator;
-import com.xemantic.githubusers.logic.event.Trigger;
 import com.xemantic.githubusers.logic.model.User;
-import com.xemantic.githubusers.logic.view.UserView;
 import com.xemantic.ankh.web.IncrementalDom;
+import com.xemantic.githubusers.logic.user.UserView;
 import elemental2.dom.Element;
+import io.reactivex.Observable;
 import mdc.ripple.MDCRipple;
-import rx.Observable;
+
+import javax.inject.Inject;
 
 /**
  * Web version of the {@link UserView}.
@@ -43,6 +45,7 @@ public class WebUserView implements UserView, WebView {
 
   private final Observable<Trigger> userClicks$;
 
+  @Inject
   public WebUserView() {
     element = IncrementalDom.create(() -> Templates.user(new Templates.UserParams()));
     userClicks$ = Elements.observeClicksOf(element);
@@ -56,6 +59,7 @@ public class WebUserView implements UserView, WebView {
     Templates.UserParams params = new Templates.UserParams();
     params.login = user.getLogin();
     patchUser(params);
+    // TODO it should be happening in presenter, it will be possible to cancel
     Images.preload(user.getAvatarUrl())
         .subscribe(image -> {
           params.avatarUrl = image.src;
@@ -64,7 +68,7 @@ public class WebUserView implements UserView, WebView {
   }
 
   @Override
-  public Observable<Trigger> observeSelection() {
+  public Observable<Trigger> userSelection$() {
     return userClicks$;
   }
 

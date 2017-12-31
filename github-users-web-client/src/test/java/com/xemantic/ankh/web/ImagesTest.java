@@ -23,9 +23,8 @@
 package com.xemantic.ankh.web;
 
 import elemental2.dom.Image;
-import org.hamcrest.CoreMatchers;
+import io.reactivex.Single;
 import org.junit.Test;
-import rx.Single;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;

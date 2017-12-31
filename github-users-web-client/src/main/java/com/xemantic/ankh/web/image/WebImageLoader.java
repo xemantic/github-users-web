@@ -20,33 +20,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh.web;
+package com.xemantic.ankh.web.image;
 
 import elemental2.dom.Image;
 import io.reactivex.Single;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.util.Objects;
 
 /**
- * Image utilities.
- *
  * @author morisil
  */
-public final class Images {
+public class WebImageLoader implements ImageLoader<Image> {
 
-  private Images() { /* util class, non-instantiable */ }
+  private final Provider<Image> imageProvider;
 
-  public static Single<Image> preload(String url) {
+  // TODO Provider for testability
+  @Inject
+  public WebImageLoader(Provider<Image> imageProvider) {
+    this.imageProvider = imageProvider;
+  }
+
+  @Override
+  public Single<Image> load(String url) {
     Objects.requireNonNull(url);
     return Single.create(emitter -> {
-      Image image = new Image();
+      Image image = imageProvider.get();
       image.onload = event -> {
         emitter.onSuccess(image);
         return null;
       };
       image.onerror = event -> {
         // TODO it should be specific exception
-        emitter.onError(new RuntimeException("Could not load image: " + url));
+        // TODO which property of ((ProgressEvent) event) indicates error
+        emitter.onError(new ImageLoadingException("", url));
         return null;
       };
       emitter.setCancellable(() -> {

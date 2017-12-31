@@ -22,8 +22,8 @@
 
 package com.xemantic.githubusers.web.view;
 
+import com.xemantic.ankh.shared.snackbar.SnackbarView;
 import com.xemantic.ankh.web.IncrementalDom;
-import com.xemantic.githubusers.logic.view.SnackbarView;
 import elemental2.dom.Element;
 import mdc.snackbar.MDCSnackbar;
 
@@ -32,7 +32,7 @@ import javax.inject.Singleton;
 
 /**
  * Web version of the {@link SnackbarView}.
-
+ *
  * @author morisil
  */
 @Singleton

@@ -22,7 +22,7 @@
 
 package com.xemantic.ankh.web.driver;
 
-import com.xemantic.githubusers.logic.driver.UrlOpener;
+import com.xemantic.ankh.shared.driver.UrlOpener;
 import elemental2.dom.DomGlobal;
 
 import javax.inject.Inject;

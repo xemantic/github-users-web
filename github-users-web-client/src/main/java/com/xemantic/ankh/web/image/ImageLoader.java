@@ -20,32 +20,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.error;
+package com.xemantic.ankh.web.image;
 
-import com.google.gwt.core.client.GWT;
-import rx.plugins.RxJavaHooks;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import io.reactivex.Single;
 
 /**
- * Component which will initialize proper error handling for this app.
- *
  * @author morisil
  */
-@Singleton
-public class ErrorHandling {
+public interface ImageLoader<T> {
 
-  private final ExceptionHandler exceptionHandler;
-
-  @Inject
-  public ErrorHandling(ExceptionHandler exceptionHandler) {
-    this.exceptionHandler = exceptionHandler;
-  }
-
-  public void start() {
-    GWT.setUncaughtExceptionHandler(exceptionHandler);
-    RxJavaHooks.setOnError(e -> GWT.getUncaughtExceptionHandler().onUncaughtException(e));
-  }
+  Single<T> load(String url);
 
 }

@@ -24,10 +24,13 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.8.1//EN"
     "https://raw.githubusercontent.com/gwtproject/gwt/2.8.1/distro-source/core/src/gwt-module.dtd">
 <module>
-  <source path="logic" />
-  <inherits name="com.google.gwt.http.HTTP" />
-  <inherits name="dagger.Dagger" />
-  <inherits name="com.intendia.rxgwt2.RxGwt" />
-  <inherits name="com.intendia.rxgwt2.RxElemental2" />
+
+  <source path="web" />
+
   <inherits name="com.xemantic.ankh.AnkhShared" />
+  <inherits name="com.google.gwt.regexp.RegExp" />
+- <inherits name="com.google.common.base.Base" />
+  <inherits name="com.intendia.rxgwt2.RxElemental2" />
+  <inherits name="com.intendia.rxgwt2.RxElemento" />
+
 </module>

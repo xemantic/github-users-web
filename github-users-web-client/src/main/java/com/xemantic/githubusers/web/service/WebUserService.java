@@ -22,14 +22,15 @@
 
 package com.xemantic.githubusers.web.service;
 
-import com.intendia.gwt.autorest.client.ResourceVisitor;
+import com.xemantic.ankh.web.service.Api;
 import com.xemantic.githubusers.logic.model.SearchResult;
 import com.xemantic.githubusers.logic.service.UserService;
 import com.xemantic.githubusers.web.model.WebSearchResult;
 import com.xemantic.githubusers.web.service.json.JsonSearchResult;
-import rx.Single;
+import io.reactivex.Single;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
@@ -40,31 +41,21 @@ import javax.inject.Singleton;
 @Singleton
 public class WebUserService implements UserService {
 
-  private final ResourceVisitor.Supplier path;
-
-  private final GitHubApiErrorHandler errorHandler;
+  private final Api api;
 
   @Inject
-  public WebUserService(
-      ResourceVisitor.Supplier path,
-      GitHubApiErrorHandler errorHandler) {
-
-    this.path = path;
-    this.errorHandler = errorHandler;
+  public WebUserService(@Named("gitHubApiUrl") String gitHubApiUrl) {
+    this.api = new Api(gitHubApiUrl);
   }
 
-  @SuppressWarnings("unchecked")
   @Override
   public Single<SearchResult> find(String query, int page, int perPage) {
-    return path.get()
-        .method("GET")
-        .path("search", "users")
-        .param("q", query)
-        .param("page", page)
-        .param("per_page", perPage)
-        .<Single<JsonSearchResult>>as(Single.class, JsonSearchResult.class)
-        .doOnError(errorHandler::handleError)
-        .map(WebSearchResult::new);
+    return api.resource("/search/users")
+        .and("q", query)
+        .and("page", page)
+        .and("per_page", perPage)
+        .get()
+        .map(result -> new WebSearchResult((JsonSearchResult) result));
   }
 
 }

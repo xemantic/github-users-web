@@ -82,7 +82,7 @@
                   <goal>npm</goal>
                 </goals>
                 <configuration>
-                  <arguments>install --save material-components-web google-closure-templates google-closure-library incremental-dom</arguments>
+                  <arguments>install --save material-components-web google-closure-library incremental-dom</arguments>
                 </configuration>
               </execution>
             </executions>

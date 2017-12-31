@@ -22,13 +22,13 @@
 
 package com.xemantic.githubusers.web.view;
 
+import com.xemantic.ankh.shared.event.Trigger;
 import com.xemantic.ankh.web.Elements;
 import com.xemantic.ankh.web.IncrementalDom;
-import com.xemantic.githubusers.logic.event.Trigger;
-import com.xemantic.githubusers.logic.view.DrawerView;
+import com.xemantic.githubusers.logic.drawer.DrawerView;
 import elemental2.dom.Element;
+import io.reactivex.Observable;
 import mdc.drawer.MDCTemporaryDrawer;
-import rx.Observable;
 
 import javax.inject.Inject;
 
@@ -67,22 +67,22 @@ public class WebDrawerView implements DrawerView, WebView {
   }
 
   @Override
-  public Observable<Trigger> observeOpenDrawerIntent() {
+  public Observable<Trigger> openDrawerIntent$() {
     return openDrawer$;
   }
 
   @Override
-  public Observable<Trigger> observeReadAboutIntent() {
+  public Observable<Trigger> readAboutIntent$() {
     return readAbout$;
   }
 
   @Override
-  public Observable<Trigger> observeOpenProjectOnGitHubIntent() {
+  public Observable<Trigger> openProjectOnGitHubIntent$() {
     return openProjectOnGithub$;
   }
 
   @Override
-  public Observable<Trigger> observeSelectLanguageIntent() {
+  public Observable<Trigger> selectLanguageIntent$() {
     return selectLanguage$;
   }
 

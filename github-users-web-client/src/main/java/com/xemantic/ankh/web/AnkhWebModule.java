@@ -22,39 +22,21 @@
 
 package com.xemantic.ankh.web;
 
-import elemental2.dom.Image;
-import io.reactivex.Single;
-
-import java.util.Objects;
+import com.xemantic.ankh.shared.driver.UrlOpener;
+import com.xemantic.ankh.shared.event.SnackbarMessageEventModule;
+import com.xemantic.ankh.web.driver.WebUrlOpener;
+import dagger.Binds;
+import dagger.Module;
 
 /**
- * Image utilities.
+ * Defines default web implementations of the Ankh library components.
  *
  * @author morisil
  */
-public final class Images {
+@Module(includes = SnackbarMessageEventModule.class)
+public abstract class AnkhWebModule {
 
-  private Images() { /* util class, non-instantiable */ }
-
-  public static Single<Image> preload(String url) {
-    Objects.requireNonNull(url);
-    return Single.create(emitter -> {
-      Image image = new Image();
-      image.onload = event -> {
-        emitter.onSuccess(image);
-        return null;
-      };
-      image.onerror = event -> {
-        // TODO it should be specific exception
-        emitter.onError(new RuntimeException("Could not load image: " + url));
-        return null;
-      };
-      emitter.setCancellable(() -> {
-        image.onerror = null;
-        image.src = "";
-      });
-      image.src = url;
-    });
-  }
+  @Binds
+  abstract UrlOpener urlOpener(WebUrlOpener view);
 
 }

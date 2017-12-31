@@ -22,28 +22,27 @@
 
 package com.xemantic.githubusers.web;
 
-import com.intendia.gwt.autorest.client.RequestResourceBuilder;
-import com.intendia.gwt.autorest.client.ResourceVisitor;
-import com.xemantic.githubusers.logic.driver.UrlOpener;
-import com.xemantic.githubusers.logic.error.ErrorAnalyzer;
-import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
-import com.xemantic.githubusers.logic.event.UserQueryEvent;
-import com.xemantic.githubusers.logic.event.UserSelectedEvent;
+import com.xemantic.ankh.shared.error.AnkhExceptionHandler;
+import com.xemantic.ankh.shared.error.ErrorMessageProvider;
+import com.xemantic.ankh.shared.snackbar.SnackbarView;
+import com.xemantic.ankh.web.AnkhWebModule;
+import com.xemantic.githubusers.logic.drawer.DrawerView;
+import com.xemantic.githubusers.logic.event.UserQueryEventModule;
+import com.xemantic.githubusers.logic.event.UserSelectedEventModule;
 import com.xemantic.githubusers.logic.service.UserService;
-import com.xemantic.githubusers.logic.view.*;
-import com.xemantic.ankh.web.driver.WebUrlOpener;
-import com.xemantic.githubusers.web.error.DefaultErrorAnalyzer;
-import com.xemantic.githubusers.web.view.*;
+import com.xemantic.githubusers.logic.user.UserListView;
+import com.xemantic.githubusers.logic.user.UserQueryView;
+import com.xemantic.githubusers.logic.user.UserView;
+import com.xemantic.githubusers.web.error.WebErrorMessageProvider;
 import com.xemantic.githubusers.web.service.WebUserService;
+import com.xemantic.githubusers.web.view.*;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 
-import java.util.function.Consumer;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import rx.Observable;
-import rx.subjects.PublishSubject;
+import java.util.logging.Logger;
 
 /**
  * Dagger module defining component binding for the whole app.
@@ -54,72 +53,76 @@ import rx.subjects.PublishSubject;
  *
  * @author morisil
  */
-@Module
+@Module(includes = {
+    AnkhWebModule.class,
+    UserSelectedEventModule.class,
+    UserQueryEventModule.class
+})
 public abstract class GitHubUsersModule {
 
   @Provides
+  @Singleton
+  @Named("gitHubApiUrl")
+  static String getGitHubApiUrl() {
+    return "https://api.github.com";
+  }
+
+  @Provides
+  @Singleton
   @Named("userListPageSize")
   static int getUserListPageSize() {
     return 100;
   }
 
   @Provides
+  @Singleton
   @Named("gitHubUserSearchLimit")
   static int getGitHubUserSearchLimit() {
     return 1000;
   }
 
   @Provides
+  @Singleton
   @Named("projectGitHubUrl")
   static String getProjectGitHubUrl() {
     return "https://github.com/xemantic/github-users-web";
   }
 
-  // Snackbar message event bus
-  @Provides @Singleton static PublishSubject<SnackbarMessageEvent> snackbarMessageBus() { return PublishSubject.create(); }
-  @Provides static Consumer<SnackbarMessageEvent> snackbarMessageConsumer(PublishSubject<SnackbarMessageEvent> bus) { return bus::onNext; }
-  @Binds abstract Observable<SnackbarMessageEvent> snackbarMessageObservable(PublishSubject<SnackbarMessageEvent> bus);
-
-  // User query event bus
-  @Provides @Singleton static PublishSubject<UserQueryEvent> userQueryBus() { return PublishSubject.create(); }
-  @Provides static Consumer<UserQueryEvent> userQueryConsumer(PublishSubject<UserQueryEvent> bus) { return bus::onNext; }
-  @Binds abstract Observable<UserQueryEvent> userQueryObservable(PublishSubject<UserQueryEvent> bus);
-
-  // User selected event bus
-  @Provides @Singleton static PublishSubject<UserSelectedEvent> userSelectedBus() { return PublishSubject.create(); }
-  @Provides static Consumer<UserSelectedEvent> userSelectedConsumer(PublishSubject<UserSelectedEvent> bus) { return bus::onNext; }
-  @Binds abstract Observable<UserSelectedEvent> userSelectedObservable(PublishSubject<UserSelectedEvent> bus);
+  @Provides
+  @Singleton
+  static Logger logger() {
+    return Logger.getLogger(AnkhExceptionHandler.class.getName());
+  }
 
   @Binds
-  abstract ErrorAnalyzer getErrorAnalyzer(DefaultErrorAnalyzer analyzer);
+  @Singleton
+  abstract ErrorMessageProvider errorMessageProvider(WebErrorMessageProvider provider);
 
   @Binds
-  abstract UrlOpener getUrlOpener(WebUrlOpener opener);
+  @Singleton
+  abstract Thread.UncaughtExceptionHandler uncaughtExceptionHandler(AnkhExceptionHandler handler);
 
   @Binds
+  @Singleton
   abstract UserService getUserService(WebUserService service);
 
   @Binds
+  @Singleton
   abstract DrawerView getDrawerView(WebDrawerView view);
 
   @Binds
+  @Singleton
   abstract SnackbarView getSnackbarView(WebSnackbarView view);
 
   @Binds
+  @Singleton
   abstract UserQueryView getUserQueryView(WebUserQueryView view);
 
   @Binds
-  abstract UserListView getUserListView(WebUserListView view);
-
-  @Provides
-  static UserView getUserView() {
-    return new WebUserView();
-  }
-
-  @Provides
   @Singleton
-  static ResourceVisitor.Supplier getResourceVisitorSupplier() {
-    return () -> new RequestResourceBuilder().path("https://api.github.com");
-  }
+  abstract UserListView userListView(WebUserListView view);
+
+  @Binds
+  abstract UserView getUserView(WebUserView view);
 
 }

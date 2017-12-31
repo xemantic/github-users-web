@@ -22,10 +22,11 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.intendia.rxgwt.elemental2.RxElemental2;
-import com.xemantic.githubusers.logic.view.UserQueryView;
+import com.intendia.rxgwt2.elemento.RxElemento;
+import com.xemantic.githubusers.logic.user.UserQueryView;
 import elemental2.dom.HTMLInputElement;
-import rx.Observable;
+import io.reactivex.Observable;
+import org.jboss.gwt.elemento.core.EventType;
 
 import javax.inject.Inject;
 
@@ -41,12 +42,12 @@ public class WebUserQueryView implements UserQueryView {
   @Inject
   public WebUserQueryView(WebScreen webScreen) {
     HTMLInputElement input = webScreen.getUserQueryInputElement();
-    query$ = RxElemental2.fromEvent(input, RxElemental2.input)
+    query$ = RxElemento.fromEvent(input, EventType.input)
         .map(event -> input.value);
   }
 
   @Override
-  public Observable<String> observeQueryInput() {
+  public Observable<String> queryInput$() {
     return query$;
   }
 

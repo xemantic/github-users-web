@@ -22,15 +22,15 @@
 
 package com.xemantic.githubusers.web.view;
 
+import com.xemantic.ankh.shared.event.Trigger;
 import com.xemantic.ankh.web.Elements;
 import com.xemantic.ankh.web.IncrementalDom;
-import com.xemantic.githubusers.logic.event.Trigger;
-import com.xemantic.githubusers.logic.view.UserListView;
-import com.xemantic.githubusers.logic.view.UserView;
+import com.xemantic.githubusers.logic.user.UserListView;
+import com.xemantic.githubusers.logic.user.UserView;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import javax.inject.Inject;
 
@@ -47,7 +47,7 @@ public class WebUserListView implements UserListView, WebView {
 
   private final HTMLButtonElement loadMoreButton;
 
-  private final Observable<Trigger> loadMore$;
+  private final Observable<Trigger> loadMoreActions$;
 
   @Inject
   public WebUserListView() {
@@ -55,12 +55,13 @@ public class WebUserListView implements UserListView, WebView {
     Elements elements = new Elements(element);
     userTiles = elements.get(".user-tiles");
     loadMoreButton = elements.getButton(".load-more-action");
-    loadMore$ = Elements.observeClicksOf(loadMoreButton);
+    loadMoreActions$ = Elements.observeClicksOf(loadMoreButton);
   }
 
   @Override
   public void add(UserView userView) {
     Element tile = ((WebView) userView).asElement();
+    tile.parentNode.removeChild(tile);
     userTiles.appendChild(tile);
   }
 
@@ -70,13 +71,18 @@ public class WebUserListView implements UserListView, WebView {
   }
 
   @Override
-  public Observable<Trigger> observeLoadMore() {
-    return loadMore$;
+  public Observable<Trigger> loadMoreIntent$() {
+    return loadMoreActions$;
   }
 
   @Override
   public void enableLoadMore(boolean enabled) {
     loadMoreButton.disabled = ! enabled;
+  }
+
+  @Override
+  public void loadingFirstPage(boolean loading) {
+    // TODO does nothing for now, should disable all displayed elements
   }
 
   @Override

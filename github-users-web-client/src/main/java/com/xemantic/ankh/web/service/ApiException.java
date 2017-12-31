@@ -20,41 +20,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.ankh.web;
-
-import elemental2.dom.Image;
-import io.reactivex.Single;
-
-import java.util.Objects;
+package com.xemantic.ankh.web.service;
 
 /**
- * Image utilities.
+ * Indicates an exception thrown by API service.
  *
  * @author morisil
+ * @see Api
  */
-public final class Images {
+public class ApiException extends Exception {
 
-  private Images() { /* util class, non-instantiable */ }
+  private final int statusCode;
 
-  public static Single<Image> preload(String url) {
-    Objects.requireNonNull(url);
-    return Single.create(emitter -> {
-      Image image = new Image();
-      image.onload = event -> {
-        emitter.onSuccess(image);
-        return null;
-      };
-      image.onerror = event -> {
-        // TODO it should be specific exception
-        emitter.onError(new RuntimeException("Could not load image: " + url));
-        return null;
-      };
-      emitter.setCancellable(() -> {
-        image.onerror = null;
-        image.src = "";
-      });
-      image.src = url;
-    });
+  public ApiException(int statusCode, String message) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+
+  public int getStatusCode() {
+    return statusCode;
   }
 
 }

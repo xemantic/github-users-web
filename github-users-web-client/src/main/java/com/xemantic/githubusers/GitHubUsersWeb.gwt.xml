@@ -29,11 +29,9 @@
 
   <inherits name="mdc.Mdc" />
 
-  <inherits name="com.xemantic.ankh.web.Ankh" />
+  <inherits name="com.xemantic.ankh.AnkhWeb" />
 
   <inherits name="com.xemantic.githubusers.GitHubUsers" />
-
-  <inherits name="com.intendia.gwt.autorest.AutoRest" />
 
   <entry-point class="com.xemantic.githubusers.web.GitHubUsersEntryPoint" />
 

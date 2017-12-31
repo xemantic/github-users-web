@@ -22,17 +22,19 @@
 
 package com.xemantic.githubusers.web.view;
 
-import com.xemantic.githubusers.logic.view.DrawerView;
-import com.xemantic.githubusers.logic.view.SnackbarView;
-import com.xemantic.githubusers.logic.view.UserListView;
+import com.xemantic.ankh.shared.snackbar.SnackbarView;
+import com.xemantic.githubusers.logic.drawer.DrawerView;
+import com.xemantic.githubusers.logic.user.UserListView;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * View reflecting visual component hierarchy of this app.
  *
  * @author morisil
  */
+@Singleton
 public class WebAppView {
 
   private final WebScreen webScreen;

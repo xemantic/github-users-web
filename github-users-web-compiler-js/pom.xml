@@ -115,6 +115,8 @@
                     <argument>--entry_point='app'</argument>
                     <argument>--js='js/**.js'</argument>
                     <argument>--js='node_modules/google-closure-library/closure/goog/**.js'</argument>
+                    <argument>--js='node_modules/@material/**.js'</argument>
+                    <argument>--js='!node_modules/@material/**dist/**'</argument>
                     <argument>--js='!node_modules/google-closure-library/closure/goog/**_test.js'</argument>
                     <argument>--externs='../js/externs.js'</argument>
                   </arguments>

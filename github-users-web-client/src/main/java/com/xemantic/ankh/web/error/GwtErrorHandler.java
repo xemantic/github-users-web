@@ -20,41 +20,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.xemantic.githubusers.web.error;
+package com.xemantic.ankh.web.error;
 
 import com.google.gwt.core.client.GWT;
-import com.xemantic.githubusers.logic.event.SnackbarMessageEvent;
+import com.xemantic.ankh.shared.error.Errors;
 
-import java.util.function.Consumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Handler of uncaught exceptions in this app. It will log the error using
- * {@link GWT#log(String, Throwable)} and possibly send {@link SnackbarMessageEvent}
- * to be displayed.
- *
  * @author morisil
  */
 @Singleton
-public class ExceptionHandler implements GWT.UncaughtExceptionHandler {
+public class GwtErrorHandler {
 
-  private final Consumer<SnackbarMessageEvent> snackbarMessageConsumer;
+  private final Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
 
   @Inject
-  public ExceptionHandler(Consumer<SnackbarMessageEvent> snackbarMessageConsumer) {
-    this.snackbarMessageConsumer = snackbarMessageConsumer;
+  public GwtErrorHandler(Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
+    this.uncaughtExceptionHandler = uncaughtExceptionHandler;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public void onUncaughtException(Throwable e) {
-    GWT.log(e.getMessage(), e);
-  }
-
-  // use this method if you need to notify user about certain errors.
-  private void postSnackbarMessage(String message) {
-    snackbarMessageConsumer.accept(new SnackbarMessageEvent(message));
+  public void start() {
+    Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
+    GWT.setUncaughtExceptionHandler(Errors::onError);
   }
 
 }

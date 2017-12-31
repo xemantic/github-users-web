@@ -1,0 +1,1 @@
+It seems that it can be also done with css only (on hover)
