@@ -29,7 +29,8 @@
 
   <inherits name="com.xemantic.ankh.AnkhShared" />
   <inherits name="com.google.gwt.regexp.RegExp" />
-- <inherits name="com.google.common.base.Base" />
+  <inherits name="com.google.common.base.Base" />
+  <inherits name="com.google.common.collect.Collect" />
   <inherits name="com.intendia.rxgwt2.RxElemental2" />
   <inherits name="com.intendia.rxgwt2.RxElemento" />
 
